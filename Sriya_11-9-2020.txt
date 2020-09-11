@@ -1,0 +1,66 @@
+Task1:Designation validity
+
+//formValidationUsingJS.html
+
+<!DOCTYPE html> 
+<head>
+    <title>
+        Form Validation Using JS
+    </title>
+</head>
+<body>
+    <script src="js/validation.js"></script>
+    <form name="form1" method="POST" onsubmit="return jfun1()" action="test.html">
+       Name: <input type="text" name="t1">
+       Designation: <input type="text" name="t2">
+       <input type="submit">
+    </form>
+</body>
+
+//validation.js
+
+function jfun1()
+{
+    var name=form1.t1.value;
+    var designation=form1.t2.value;
+    if((name=="")||(designation==""))
+    {
+        if(name=="")
+        {       
+        alert("Please Enter name");
+        form1.t1.focus();
+        return false;
+        }
+        else if(designation=="")
+        {       
+        alert("Please Enter designation");
+        form1.t2.focus();
+        return false;
+        }
+    }
+    else
+    {
+    return true;
+    }
+
+   
+}
+
+//test.html
+
+<h1>Welcome to Java Script</h1>
+
+
+Task:2(Database Creation )
+
+show dbs
+db
+use smdb
+db
+db.createCollection("Profile")
+db.Profile.insert( { uid: 1,name:"Sriya",designation:"developer",location:"India"},{ uid: 2,name:"Moni",designation:"developer",location:"India"} );
+db.createCollection("Registration")
+db.Registration.insert( { regno: 1,name:"DevOps",course:"MongoDB",fees:1000},{regno: 2,name:"DevOps",course:"Python",fees:5000} );
+show tables
+show dbs
+show collections
