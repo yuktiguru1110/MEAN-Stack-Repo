@@ -1,0 +1,10 @@
+Railway System
+
+trainList(trainNumber,trainName,source,destination,fairForAC,fairForGen,weekdaysAvail) ------trainNumber is primarykey
+train_Status(trainNumber,trainDate,NoOfSeatsAC,NoOfSeatsGen,SeatsBookedAC,SeatsBookedGen)
+Passengers(trainNumber,name,age,sex,addressPassenger,statusOfResv,category,dateBooked,ticketId)
+Book(ticketId,dateBooked,category)
+Cancel(ticketId,dateBooked)
+
+
+               
