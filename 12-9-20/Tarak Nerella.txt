@@ -1,4 +1,6 @@
----------------------------------Class Task--------------------------
+-----------------------------------------------
+Class Task
+-----------------------------------------------
 use Day3
 
 db.Student.insert({"S_ID":3,"S_Name":"Tarak Krishna","Course":"MERN","Fee":10000})
@@ -64,11 +66,11 @@ db.Student.find({S_ID:{$in:[5,8]}})
 db.Student.update({Course:"Python"},{$set:{Fee:1500}})
 db.Student.remove({_id:5})
 
-----------------------------Lab Task-----------------------------------
+------------------------------------------------------------------
+Lab Task
+------------------------------------------------------------------
 
-show databases
-show dbs
-use restaurants
+use Assignment
 db.restaurants.insert({
   "address": {
      "building": "1007",
