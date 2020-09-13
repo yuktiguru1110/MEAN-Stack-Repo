@@ -1,0 +1,153 @@
+db.myCollection.find(
+{
+    "name":"mihirT"
+}
+)
+=============================================================================
+db.myCollection.find(
+{
+  "age":21
+},
+{
+    multi:true
+}
+)
+===============================================================================
+db.registration.find({
+$and:[
+{
+    "Fees":{$gt:2000}
+},
+{
+    "Fees":{$lt:5000}
+},
+{
+    "Course":"MEANSTACK"
+}
+]})
+===================================================================================
+//1st
+db.restaurants.find({})
+
+//2nd
+db.restaurants.find(
+{},
+    {
+        "restaurant_id":1,
+        "name":1,
+        "borough":1,
+        "cuisine":1
+    }
+)
+
+//3rd
+db.restaurants.find(
+{},
+    {
+        "_id":0,
+        "restaurant_id":1,
+        "name":1,
+        "borough":1,
+        "cuisine":1
+    }
+)
+
+//4th
+db.restaurants.find(
+{},
+    {
+        "restaurant_id":1,
+        "name":1,
+        "cuisine":1,
+        "address":{"zipcode":1},
+        "_id":0
+    }
+)
+
+
+//5th
+db.restaurants.find(
+{ borough:"Bronx"},
+    {
+        "restaurant_id":1,
+        "name":1,
+        "cuisine":1,
+        "address":{"zipcode":1},
+        "borough":1
+    }
+)
+
+
+//6th
+db.restaurants.find(
+{ borough:"Bronx"},
+    {
+        "restaurant_id":1,
+        "name":1,
+        "cuisine":1,
+        "address":{"zipcode":1},
+        "borough":1
+    }
+).limit(5)
+
+//7th
+db.restaurants.find({},{ borough:"Bronx"}).skip(5).limit(5)
+
+//8th
+db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 90}}}})
+
+//9th
+db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 80 , $lt :100}}}});
+//10th
+db.restaurants.find(
+    {
+"address.coord" : {$lt : -95.754168}
+    }
+);
+
+//11th
+db.restaurants.find(
+    {
+    "cuisine" : {$ne:'American'},
+    "grade.score" : {$gt: 70},
+    "address.coord" : {$lt : -65.754168}
+    }
+);
+
+//12th
+db.restaurants.find(
+    {
+    "cuisine" : {$ne:'American'},
+    "grade.score" : {$gt: 70},
+    "address.coord" : {$lt : -65.754168}
+    }
+);
+
+//13th
+db.restaurants.find( {
+                             "cuisine" : {$ne : "American "},
+                             "grades.grade" :"A",
+                             "borough": {$ne : "Brooklyn"}
+                       } 
+                    ).sort({"cuisine":-1});
+
+//14th
+db.restaurants.find(
+{name: { $regex: /^Wil/}},
+{
+"restaurant_id" : 1,
+"name":1,"borough":1,
+"cuisine" :1
+}
+);
+
+//15th
+db.restaurants.find(
+{ name: {$regex: /.*ces/} },
+{
+    "restaurant_id" : 1,
+    "name":1,
+    "borough":1,
+    "cuisine" :1
+}
+);
