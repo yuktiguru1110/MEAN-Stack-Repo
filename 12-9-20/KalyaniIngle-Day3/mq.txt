@@ -1,0 +1,46 @@
+use kalyani
+db
+db.restaurants.insert(
+{
+    "address":{
+        "building":"1007",
+        "coord":[-96.856077,40.848447],
+        "street":"Morris Park Ave",
+        "zipcode":"10462"
+    },
+    "borough":"Bronx",
+    "cuisine":"Bakery",
+    "grades":[
+    {"date":{"$date":1393804800000},"grade":"A","score":2},
+    {"date":{"$date":1378857600000},"grade":"A","score":6},
+    {"date":{"$date":1358985600000},"grade":"A","score":10},
+    {"date":{"$date":1322006400000},"grade":"A","score":9},
+    {"date":{"$date":1299715200000},"grade":"B","score":14}
+    ],
+    "name":"Morris Park Bake Shop",
+    "restaurant_id":"30075445"
+        
+}
+)
+db.restaurants.find({})//1)
+db.restaurants.find({},{restaurant_id:1,name:1,borough:1,cuisine:1})//2
+db.restaurants.find({},{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//3
+db.restaurants.find({},{restaurant_id:1,name:1,borough:1,"address.zipcode":1,_id:0})//4
+db.restaurants.find({ borough:"Bronx"},{restaurant_id:1,_id:0})//5
+db.restaurants.find({ borough:"Bronx"},{restaurant_id:1,_id:0}).limit(5)//6
+db.restaurants.find({ borough:"Bronx"},{restaurant_id:1,_id:0}).skip(5)//7
+db.restaurants.find({"address.coord.0":{$lt: -95.754168}},{restaurant_id:1,_id:0})//10
+db.restaurants.find({grades:{$elemMatch:{"score":{$gt:90}}}},{restaurant_id:1,_id:0})//8
+db.restaurants.find({grades:{$elemMatch:{"score":{$gt:80,$lt:100}}}},{restaurant_id:1,_id:0})//9
+db.restaurants.find({$and:[{"cuisine":{$ne:"American"}},{grades:{$elemMatch:{"score":{$gt:70}}}},{"address.coord.0":{$lt: -65.754168}}]},{restaurant_id:1,_id:0})//11
+db.restaurants.find({"cuisine":{$ne:"American"},
+    grades:{$elemMatch:{"score":{$gt:70}}},
+    "address.coord.0":{$lt: -65.754168}},{restaurant_id:1,_id:0})//12
+db.restaurants.find({"cuisine":{$ne:"American"},
+    grades:{$elemMatch:{"grade":{$eq:"A"}}},
+    "borough":{$ne:"Brooklyn"}},{_id:0}).sort({"cuisine":-1})//13
+db.restaurants.find({ "name":{$regex:/^Wil/}},{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//14  
+db.restaurants.find({ "name":{$regex:/ces$/}},{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//15  
+
+
+

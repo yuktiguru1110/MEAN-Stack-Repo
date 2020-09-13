@@ -1,0 +1,34 @@
+show dbs
+db
+use kalyani
+show collections
+db.registration.find({})
+db.profile.find({})
+db.profile.insertOne({uid:"abc",name: "kal",designation: "student",location: "Nagpur"})
+db.registration.insertMany([{Regno: 3,name: "dhbfg",course: "MEAN",fees:650},
+  {regno:"xyz",name:"xdft",course:"sql",fees: 520}])
+db.registration.update({
+    fees:{ $gt:650}
+},
+{
+    $set:{course:'MEAN'}
+},{
+    multi:true
+})
+
+db.registration.update({fees :600},{$set: {fees:1000}})
+db.profile.find({location:"Nagpur"})
+db.registration.find({fees : {$lt :300}})
+db.registration.remove({})
+db.registration.drop()
+db.registration.find({$and: [{fees: {$gt : 400,$lt:600}},{course:"MEAN"}]})
+db.registration.aggregate([
+{
+        $group:{_id:"$name",result:{$sum:1}}
+}
+]);
+db.profile.remove({name:"xyz"})
+db.registration.find({course:{$in:["MEAN","CSE"]}},{course:1}).sort({course:1})
+db.registration.find({fees: {$gt:400}},{name:1,course:1}).limit(3)
+db.registration.aggregate([{$group:{_id:null,count:{$sum:1}}}])
+db.profile.find({"data":"4/9/2020"},{data:1})
