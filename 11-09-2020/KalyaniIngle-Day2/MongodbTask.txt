@@ -1,0 +1,8 @@
+db
+use kalyani
+db.createCollection('profile')
+show collections
+db.profile.insert({uid:'abc',name:'kalyani',designation:'xyz',location:'Nagpur'})
+db.createCollection('registration')
+db.registration.insertMany([{regno:"abc",name:"kalyani",course:"CSE",fees:500},
+    {regno:"xyz",name:"raju",course:"ECE",fees:400}])
