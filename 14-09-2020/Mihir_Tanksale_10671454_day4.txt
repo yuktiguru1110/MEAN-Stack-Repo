@@ -1,0 +1,131 @@
+////////////////////////////////update////////////////////
+//1
+db.registration.update(
+{
+    RegNo:"R001"
+},
+{
+    $set:{Fees:4000}
+})
+
+//2
+db.registration.update(
+{},
+{
+    $inc:{Fees:40000}
+})
+db.registration.find({})
+//3 // increment//done
+db.registration.update(
+{
+    Course:"java"
+},
+
+    {$mul:{Fees:NumberDecimal("1.1")}}
+)
+///////////////////////////////////Delete////////////////////////////////////
+//1
+db.profile.deleteOne({"Location":"mumbai"})
+//2
+db.profile.find().sort({"_id" : -1}).limit(1)
+//3
+db.profile.deleteMany({"Location":"mumbai"})
+//4
+db.profile.deleteMany({
+    $and:[
+        {"Location":"Delhi"},
+        {"name":"Amit"}
+    ]})
+//5
+db.profile.remove({})
+
+/////////////////////////////////Index/////////////////////////////////////////////////
+//INDEX task
+//1
+db.LVLCollection.createIndex({RegNo:1})
+//2
+db.LVLCollection.getIndexes()
+//3 
+//check in gui
+
+/////////////////////////////////MongoDB LAB Work Task 2/////////////////////////////
+//1
+db.restaurants.find(
+{name: { $regex: /^Wil/}},
+{
+"restaurant_id" : 1,
+"name":1,
+"borough":1,
+"cuisine" :1
+}
+);
+
+//2
+db.restaurants.find({
+    "borough":"Bronx",
+    $or:[{ "cuisine": 'American'},
+     {"cuisine": 'Chinese'}]
+}
+);
+
+//3
+db.restaurants.find({
+    { "borough": {$in:['Staten Island',  'Queens', 'Bronxor Brooklyn'] }},
+    {"_id": 1,"restaurant_id":1, "name": 1, "borough": 1, "cuisine": 1}
+})
+
+//4
+db.restaurants.find({
+    { "borough": {$in:['Staten Island',  'Queens', 'Bronxor Brooklyn'] }},
+    {"_id": 1,"restaurant_id":1, "name": 1, "borough": 1, "cuisine": 1}
+})
+
+//5
+db.restaurants.find(
+    {"grades.score": {$lte: 10}},
+    {"_id": 1, "restaurant_id":1,"name": 1, "borough": 1, "cuisine": 1}
+)
+
+//6
+db.restaurants.find(
+      {$or:[
+      {name: { $regex: /^Wil/}},
+      {"$and":[
+          {"cuisine":{$ne: "American"}},
+          {"cuisine":{$ne: "Chinese"}}
+          ]}
+      ]},
+      {"restaurant_id":1,"name":1,"borogh":1,"cuisine":1}
+);
+
+//7
+db.restaurants.find()
+db.restaurants.find(
+    $and(
+        
+      {"grades.grade":"A"}
+      ),
+      {"restaurant_id":1,"name":1,"grades":1}
+);
+
+//8
+db.restaurants.find(
+{    "grades.1.date": ISODate("2014-08-11T00:00:00Z"), 
+     "grades.1.grade":"A" , 
+     "grades.1.score" : 9
+},
+{"restaurant_id":1,"name":1,"grades":1})
+
+//9
+db.restaurants.find(
+{   
+     $and:[
+             {"grades.1.coord" : {$gt:42}},
+             {"grades.1.coord" : {$lt:52}}
+         ]
+},
+{"restaurant_id":1,"name":1,"address":1}
+)
+
+//10
+db.restaurants.find({}).sort({"name":1})
