@@ -1,0 +1,41 @@
+1.
+db.restaurant.find({ "name" : /.*Reg*./},{"restaurant_id" :1 , "name" : 1, "borough" : 1 , "cuisine" :1})
+
+2.
+db.restaurant.find({ $and :[{"borough" : "Bronx"},{$or : [{ "cuisine" : "American " },
+{ "cuisine" : "Chinese" }]}]})
+
+3.
+db.restaurant.find({"borough" : {$in : ["Staten Island","Queens","Bronx","Brooklyn"]}},
+{"restaurant_id" :1 , "name" : 1, "borough" : 1 , "cuisine" :1})
+
+4.
+db.restaurant.find({"borough" : {$nin : ["Staten Island","Queens","Bronx","Brooklyn"]}},
+{"restaurant_id" :1 , "name" : 1, "borough" : 1 , "cuisine" :1})
+
+5.
+db.restaurant.find({"grades.score" : {"$not" : { "$gt" : 10}}},
+{"restaurant_id" :1 , "name" : 1, "borough" : 1 , "cuisine" :1})
+
+6.
+db.restaurant.find({$or :[{"name" : /^Wil/},
+    {$and : [{  "cuisine" :{$ne : "American"}},{ "cuisine": {$ne :  "Chinees"}}
+        ]}
+    ]},
+{"restaurant_id" :1 , "name" : 1, "borough" : 1 , "cuisine" :1})
+
+7.
+db.restaurant.find({ "grades.date": ISODate("2014-08-11T00:00:00Z"), "grades.grade":"A" , "grades.score" : 11},
+{"restaurant_id" :1 , "name" : 1,"grades" :1})
+
+8.
+db.restaurant.find({ "grades.1.date": ISODate("2014-08-11T00:00:00Z"), "grades.1.grade":"A" , "grades.1.score" : 9},
+{"restaurant_id" :1 , "name" : 1,"grades" :1})
+
+9.
+db.restaurant.find({ "address.1.coord" : {$lt : 52 , $gte : 42 }},
+{"restaurant_id" :1 , "name" : 1,"grades" :1,"address.coord" : 1})
+
+10.
+db.restaurant.find().sort({"name" : 1})
+
