@@ -1,0 +1,98 @@
+use kalyani
+db
+show collections
+db.employee.find({})
+db.employee.deleteMany({})
+db.employee.insert([{"name":"Kalyani","id":"1001","location":"Nagpur"},
+    {"name":"Raju","id":"1002","location":"Mumbai"},
+    {"name":"Amit","id":"1003","location":"Delhi"},
+    {"name":"Pratik","id":"1004","location":"Hyderabad"}
+])
+....................................................//Task:Delete Command
+//1) Delete the location from your Employee Collection where location="Mumbai" for any one employee
+db.employee.update(
+        {location:"Mumbai"},
+        {$unset: {location:1}},
+        {multi:true}
+)
+//2) Delete last inserted record from your collection
+db.employee.find({}).sort({_id:-1})
+db.employee.deleteOne({})
+db.employee.find({})
+//3) Delete all records where location="Mumbai"
+db.employee.deleteMany({location:"Mumbai"})
+//4) Delete all records where location="Delhi" and name="Amit"
+db.employee.deleteMany({location:"Delhi",name:"Amit"})
+//5) Delete all records from the collection
+db.employee.deleteMany({})
+...................................................//Task:Update Command
+db.profile.deleteMany({})
+db.profile.insert([
+   {name:"Kalyani",fees:30000,regno:"R001",course:"Java"},
+   {name:"Amit",fees:50000,regno:"R002",course:"CSE"},
+   {name:"Raju",fees:60000,regno:"R003",course:"MEAN"}
+])
+db.profile.find({})
+//1)Update the fees of the employee from profile table where regno="R001" (put the fees Rs. 40000)
+db.profile.update(
+   { regno:"R001"},
+   {$set:{fees:40000}}
+)   
+//2)Increase the fees Rs. 1000 from all the course
+db.profile.updateMany(
+  {},
+  {$inc:{fees:1000}}
+ )
+//3)Increase the fees 10% for the Java Course
+db.profile.updateMany(
+  { course:"Java"},
+  {$mul:{fees:1.1}}
+)
+...............................................//Task:Index
+//1) Create an index on the key field of your collection
+db.employee.createIndex({id:1})
+//2)Try to check created index using mongodb command 
+db.employee.getIndexes()
+//3)try to check created index in your GUI tool
+//4) indexing on multiple fields
+db.employee.createIndex({id:1,name:1})
+//5) with indexing and without indexing
+use person
+db
+db.mypost.find({})//0.127s
+db.mypost.find({"student_id":1000})//0.011s
+db.mypost.findOne({"student_id":1000})
+db.mypost.createIndex({"student_id":1})
+db.mypost.find({"student_id":1000})//0.003s
+db.mypost.findOne({"student_id":1000})
+..................................................//Tasks
+//1)Create Collection(UserProfile)
+db.UserProfile.insert(
+{"contact":"1234567809","dob":"01-01-1991","gender":"M","name":"ABC","user_name":"abcuser"}
+)
+//2)
+db.UserProfile.ensureIndex({gender:1})
+//3)
+db.UserProfile.find({},{username:1,_id:0}).explain()
+//4)
+db.UserProfile.getIndexes()
+...................................................//Lab-work-Tasks
+db.restaurants.find({})
+db.restaurants.find({"name":{$regex:/.*Reg.*/}},{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//1)
+db.restaurants.find({"borough":"Bronx",$or:[{"cuisine":"American"},{"cuisine":"Chinese"}]},
+{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//2)
+db.restaurants.find({"borough":{$in:["Staten Island","Queens","Bronxor Brooklyn"]}},
+{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//3)
+db.restaurants.find({"borough":{$nin:["Staten Island","Queens","Bronxor Brooklyn"]}},
+{restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//4)
+db.restaurants.find({"grades":{$elemMatch:{"score":{$not:{$gt:10}}}}},
+      {restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//5)
+db.restaurants.find({$or:[{$and:[{"cuisine":{$ne:"American"}},{"cuisine":{$ne:"Chinese"}}]},{"name":{$regex:/^Wil/}}]},
+      {restaurant_id:1,name:1,borough:1,cuisine:1,_id:0})//6)
+db.restaurants.find({grades:{$elemMatch:{"date":"2014-08-11T00:00:00Z","grade":"A","score":11}}},
+ {restaurant_id:1,name:1,grades:1})//7)
+db.restaurants.find({"grades.1":{"date":"2014-08-11T00:00:00Z","grade":"A","score":9}},
+ {restaurant_id:1,name:1,grades:1})//8) 
+db.restaurants.find({}).sort({"name":1})//10)  
+db.restaurants.find({"address.coord.1":{$gt:42,$lt:52}},
+{restaurant_id:1,name:1,address:1})//9)
