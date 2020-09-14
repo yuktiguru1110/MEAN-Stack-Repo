@@ -1,0 +1,84 @@
+Demo Task 
+
+####### DELETE COMMAND ##################
+1.Delete the location from y0ur Profile table/collection where location="mumbai" for any one employee
+Solu-db.Profile.deleteOne({"Location":"Mumbai"})
+
+
+2.Delete last inserted record from your table/collection
+db.Registration.find().sort({"RegNo":-1}).skip(1)
+
+
+3.Delete all records where location="mumbai"
+solu- db.Profile.deleteMany({"Location":"Mumbai"})
+
+4.Delete all records where location="delhi" and name="amit"
+
+solu-db.Profile.deleteMany({$and:[{"Location":"Delhi","name":"Amit"}]})
+
+
+5.Delete All records from the collection
+solu- db.Profile.deleteMany({})
+
+
+
+######UPDATE COMMAND ######################
+
+1.Update trhe fees of the employee from registration table where "RegNo=1" (put fees rs 40000)
+
+solu-db.Registration.update({"RegNo":1},{$set:{"fees":40000}})
+
+2.Increase the fees rs 1000 for all courses
+solu-db.Registration.updateMany({},{$inc:{"fees":1000}})
+
+
+3.INcrease the fees 10% for javca courses
+solu-db.Registration.updateMany({"course":"java"},{$mul:{"fees":1.1}})
+
+
+
+####################Text Search ############
+
+db.person.insertMany
+ ( [
+ { _id : "1001", name: "Franklin Roosevelt", quote: "More than just an end to war, we want an end to the beginnings of all wars." },
+ { _id : "1002", name: "peter Dale Scott", quote:"I guess that when you invade a nation of warlords, you end up having to deal with warlords." },
+ { _id : "1003", name: "Robert E. Lee", quote: "What a cruel thing war is... to fill our hearts with hatred instead of love for our neighbors."},
+ { _id : "1004", name: "William Tecumseh Sherman", quote : "War is cruelty. There is no use trying to reform it. The crueler it is, the sooner it will be over." }
+ ] );
+ 
+db.person.find().pretty();
+ 
+db.person.createIndex({"quote":"text"})
+    
+db.person.find( { $text: { $search: "war" } } ).pretty();
+ 
+
+
+
+
+############ INDEXES#################
+
+
+
+use RISHI
+db
+
+db.Registration.getIndexes()
+
+use RISHI
+
+show collections
+
+db.Registration.createIndex({"RegNo":1,"course":1})
+
+db.Registration.getIndexes()
+
+for(i=0;i<10000;++i)
+{
+    db.Student.insert({"Student_id":i,"Name":"Rishi"});
+}
+
+
+db.Registration.dropIndex({"RegNo":1})
+
