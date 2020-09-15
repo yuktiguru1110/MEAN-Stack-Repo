@@ -1,0 +1,28 @@
+use restaurant
+1. Write a MongoDB query to arrange the name of the restaurants in descending along with all the columns
+
+db.restaurant.find().sort({"name" : -1})
+
+2. Write a MongoDB query to arranged the name of the cuisine in ascending order and for that same cuisine borough should be in descending order. 
+
+db.restaurant.find().sort({"cuisine" : 1 , "borough" : -1})
+
+ 3. Write a MongoDB query to know whether all the addresses contains the street or not. 
+
+db.restaurant.find({"address.street" : {$exists : true}})
+
+4. Write a MongoDB query which will select all documents in the restaurants collection where the coord field value is Double. 
+ 
+db.restaurant.find({"address.coord" : {$type : "double"}})
+
+5. Write a MongoDB query which will select the restaurant Id, name and grades for those restaurants which returns 0 as a remainder after dividing the score by 7. 
+ 
+db.restaurant.find({"grades.scores" : {$mod : [7,0]}},{"restaurant_id" :1 ,"name" : 1, "grades" : 1})
+
+6. Write a MongoDB query to find the restaurant name, borough, longitude and attitude and cuisine for those restaurants which contains 'mon' as three letters somewhere in its name
+
+db.restaurant.find({name :  /mon/},{"name":1,"borough":1,"address.coord":1,"cuisine" :1})
+
+7. Write a MongoDB query to find the restaurant name, borough, longitude and latitude and cuisine for those restaurants which contain 'Mad' as first three letters of its name.  
+
+db.restaurant.find( { name :  { $regex : /^Mad/i} },{"name":1,"borough":1,"address.coord":1,"cuisine" :1})

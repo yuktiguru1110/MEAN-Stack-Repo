@@ -1,0 +1,9 @@
+use harika
+show dbs
+db.profile.insert({"UID" :101 ,"Name":"kavin","Designation":"developer","Location":"Mumbai"},
+                  {"UID" :102 ,"Name":"kavan","Designation":"tester","Location":"Mumbai"})
+                  
+                  show collections
+                  show dbs
+ db.registration.insert({"RegNo" :1001 ,"Name":"kavin","Course":"JAVA","Fees":5000},
+                  {"RegNo" :1002 ,"Name":"kavan","Course":"C#","Fees":5000})

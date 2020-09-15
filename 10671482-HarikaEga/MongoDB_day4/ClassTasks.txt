@@ -1,0 +1,88 @@
+use harika
+Task1 
+
+1.
+db.profile.deleteOne({"Location" : "Mumbai"})
+db.profile.find()
+2.
+db.profile.deleteOne({}).sort({ "_id" : -1})
+
+3.
+db.profile.deleteMany({"Location" : "Chennai"})
+
+4.
+db.profile.deleteMany({$and :[ {"Location" : "Mumbai" } ,{"Name" : "helen"}]})
+
+5.
+db.profile.deleteMany({})
+
+
+Task 2
+1.
+db.registration.update({"RegNo" :1001},{ $set : {"Fees" : 40000}})
+db.registration.find()
+2.
+db.registration.updateMany({},{ $inc: { Fees : 1000 }})
+3.
+db.registration.updateMany({"Course" : ".NET"},{$mul : {Fees : 1.1}})
+
+
+Task3------ Full TextSearch
+use person
+
+1.db.person.insertMany( [
+ { _id : "1001", name: "Franklin Roosevelt", quote: "More than just an end to war, we want an end to the beginnings of all wars." },
+ { _id : "1002", name: "peter Dale Scott", quote:"I guess that when you invade a nation of warlords, you end up having to deal with warlords." },
+ { _id : "1003", name: "Robert E. Lee", quote: "What a cruel thing war is... to fill our hearts with hatred instead of love for our neighbors."},
+ { _id : "1004", name: "William Tecumseh Sherman", quote : "War is cruelty. There is no use trying to reform it. The crueler it is, the sooner it will be over." }
+ ] );
+
+db.person.find().pretty()
+
+2.db.person.createIndex({"quote":"text"})
+
+db.person.find( { $text: { $search: "war" } } ).pretty();
+
+show dbs
+Task 4 ----indexes
+
+use harika
+db.registration.find()
+db.registration.getIndexes()
+
+1.
+db.registration.createIndex({"RegNo" : 1 })
+
+2.
+db.registration.createIndex({"RegNo" : 1 ,"Name" : 1 })
+
+3.
+db.registration.dropIndex({"RegNo" : 1})
+
+
+use example
+
+for(i =0 ;i<10000 ;++i)
+{
+  db.mypost.insert({"Student_id" : i , "Name" : "Raj"});  
+}
+db.mypost.find();
+
+db.mypost.find({"Student_id" : 1000})
+db.mypost.findOne({"Student_id" : 1000})
+db.mypost.createIndex({"Student_id" :1})
+db.mypost.find({"Student_id" : 9999})
+db.mypost.findOne({"Student_id" : 1000})
+db.mypost.dropIndex({"Student_id" :1})
+
+
+use userProfile
+db.userProfile.insert({"contact" : "1234567809" , "dob" : "01-01-1991" , "gender" : "M" ,"name" : "ABC" , "user_name" : "abcuser"})
+db.userProfile.find()
+
+-----explain() task
+db.userProfile.ensureIndex({"user_name" :1})
+1.
+sssdb.userProfile.find({},{"user_name" : 1}).explain()
+
+db.userProfile.find().explain()

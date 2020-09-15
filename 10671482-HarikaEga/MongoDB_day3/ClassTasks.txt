@@ -1,0 +1,150 @@
+show dbs
+show databases
+db
+use harika
+
+show collections
+
+db.profile.find()
+db.profile.insert({"UID":102 , "Name": "kavan" , "Designation":"tester","Location" : "Mumbai"}) 
+db.profile.insert({"UID":103 , "Name": "Suma" , "Designation":"developer","Location" : "Banglore"}) 
+db.profile.insert({"UID":104 , "Name": "sumedha" , "Designation":"tester","Location" : "Mumbai"}) 
+
+db.profile.update({
+    "UID" : { $gt :102 }
+},
+{
+    $set : { "Location" : "Chennai"}
+},
+{ multi : true }
+)
+
+db.profile.insert([{"UID":105 , "Name": "Rama" , "Designation":"developer","Location" : "Mumbai"},
+{"UID":106 , "Name": "hari" , "Designation":"tester","Location" : "Banglore"}])
+
+db.profile.insertMany([
+                         {"UID":107 , "Name": "helen" , "Designation":"tester","Location" : "Mumbai"}])
+                         db.profile.insertMany([{"UID":108 , "Name": "Ramu" , "Designation":"developer","Location" : "Mumbai"},
+                         {"UID":109 , "Name": "helen" , "Designation":"tester","Location" : "Mumbai"}])
+           
+    db.profile.insert([{"UID":110 , "Name": "Hemanth" , "Designation":"developer","Location" : "Mumbai"},
+                         {"UID":111 , "Name": "Somu" , "Designation":"tester","Location" : "Mumbai"}])                     
+
+
+db.profile.find().pretty()
+-------------------------------------------------------------------------------------------------------------
+1. Show all the records where location is Mumbai.
+db.profile.find(
+{
+    "Location":"Mumbai"
+})
+-------------------------------------------------------------------------------------------------------------
+2.Show all the records where name is kavan.
+db.profile.find(
+{
+    "Name":"kavan"
+})
+------------------------------------------------------------------------------------------------------------ 
+3.Show the records where UID is less than 105
+db.profile.find(
+{
+    "UID":{ $lt :105}
+})
+-------------------------------------------------------------------------------------------------------------
+db.registration.find()
+ db.registration.insert([ {"RegNo":1001 , "Name": "Hemanth" , "Course":".NET","Fees" : 5000},
+ {"RegNo":1002 , "Name": "Kavin" , "Course":"MongoDB","Fees" : 4000},
+                         {"RegNo":1003 , "Name": "Ramu" , "Course":"Angular","Fees" : 4500}]) 
+ db.registration.insert([ {"RegNo":1004 , "Name": "Helen" , "Course":".NET","Fees" : 2000},
+ {"RegNo":1005 , "Name": "Suma" , "Course":"MongoDB","Fees" : 3000},
+                         {"RegNo":1006 , "Name": "Sumedha" , "Course":"Angular","Fees" : 4500}])    
+                         
+ db.registration.insert([ {"RegNo":1004 , "Name": "Helen" , "Course":".NET","Fees" : 2000},
+ {"RegNo":1005 , "Name": "Suma" , "Course":"MongoDB","Fees" : 3000},
+                         {"RegNo":1006 , "Name": "Sumedha" , "Course":"Angular","Fees" : 4500}])                  
+                                             
+
+db.registration.find({
+  "Fees" :{ $gt : 4000}
+})
+
+db.registration.update({"Fees" : 4000} ,{$set : {"Fees" : 5000}})
+
+db.profile.remove({"UID" :105})
+db.registration.drop()
+db.registration.remove({})
+
+show collections
+
+-------------------------------------------------------------------------------------------------------------------------
+4.Show  all records where UID is less than 105 and location is Mumbai.
+
+db.profile.find({$and : [{ "UID" : {$gt :105}},{"Location":"Mumbai"}]})
+db.profile.find()
+----------------------------------------------------------------------------------------------------------------------------
+5.Show all records where fess is in between 2000 and 5000 and course is MongoDB.
+
+db.registration.find({$and:[{"Fees" : {$gt : 2000}},{"Fees" : {$lt : 5000 }},{"Course" : "MongoDB"}]})
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+db.registration.aggregate([
+{
+    $group : {"_id" : "$Course" ,"result" : {$sum :1}}
+}])
+  db.registration.aggregate([
+{
+    $group : {"_id" : "$Course" ,"result" : {$sum :1}}
+}])
+        
+ db.profile.aggregate([
+{
+    $group : {"_id" : "$Location" ,"result" : {$sum :1}}
+}])
+
+  db.registration.aggregate([
+{
+    $group : {"_id" : null ,"result" : {$max :"$Fees"}}
+}])
+
+db.registration.remove({"Course" : "Angular"})
+
+db.profile.find({
+ "Location" : { "$in" : ["Chennai","Mumbai"]}
+},{"Location" : 1}).sort({"Location" : 1})
+   
+   db.registration.find({"Fees" : { $gt : 2000}},{"Name" : 1, "Course" :1}). limit(2)
+   db.registration.find()
+
+db.profile.aggregate([
+{ $group : {_id :null , count : {$sum :1}}
+}])
+
+db.profile.find({"Location":"Mumbai"},
+{"UID": 1 ,"Name" :1 }).pretty()
+
+
+db.registration.aggregate([
+{ $group :{ 
+    
+    _id :  { "Name":"$Name","Course":"$Course"}  ,
+        count: { $sum : 1}
+}
+}])
+
+db.registration.distinct("Fees")
+db.registration.find()
+
+db.registration.aggregate([
+{ $match : { "Course" : ".NET"}},{
+    $group :{ 
+    
+    _id :  {"Name":"$Name","Course":"$Course"}  ,
+        count: { $sum : 1}
+}
+}])
+
+
+
+

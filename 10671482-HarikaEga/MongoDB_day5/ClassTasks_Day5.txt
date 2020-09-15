@@ -1,0 +1,81 @@
+1.Adding a new field into an existing collection.
+
+db.profile.updateMany({},
+{$set : {join_date : new Date()}})
+
+2.Adding  new field -age in registration collection
+db.registration.updateMany({},
+{$set : {age : new Number()}})
+
+3.Droping a field in collection.
+db.registration.updateMany({},
+{$unset : {"age" : ""}})
+
+
+4. MongoDB query to find all documents where restaurant name does not contain "bc".
+db.restaurant.find({name : {$not : /bc/}})
+
+5.To find count of all documents in a collection.
+db.restaurant.find().count()
+db.restaurant.count()
+
+6.Count query
+db.profile.count({"UID" : {$gt : 102}})
+db.profile.find({"UID" : {$gt : 102}}).count()
+
+7.Cursor query
+var myId=db.profile.find({"UID" : {$gt : 102}})
+
+ while(myId.hasNext())
+ {
+     print(tojson(myId.next()))
+ }
+
+8. MongoDB query for Joining 2 collections 
+ db.orders.insert([
+   { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+   { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+   { "_id" : 3  }
+])
+
+db.inventory.insert([
+   { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+   { "_id" : 2, "sku" : "bread", description: "product 2", "instock" : 80 },
+   { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+   { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+   { "_id" : 5, "sku": null, description: "Incomplete" },
+   { "_id" : 6 }
+])
+
+db.orders.aggregate([
+{
+$lookup:{ from : "inventory",
+          localField:"item",
+          foreignField:"sku",
+          as: "inventory_docs"}
+
+
+}])
+
+
+
+db.department.insert([{"EmpId" : 1 ,"Name" : "kavan" , "Department" : "Sales", "Salary" : 45000},
+{"EmpId" : 2 ,"Name" : "kavin" , "Department" : "Accounts", "Salary" : 55000},
+{"EmpId" : 3 ,"Name" : "Suma" , "Department" : "Sales", "Salary" : 50000},
+{"EmpId" : 4 ,"Name" : "Hemanth" , "Department" : "Accounts", "Salary" : 50000},
+{"EmpId" : 5 ,"Name" : "Helen" , "Department" : "Sales", "Salary" : 45500},
+{"EmpId" : 6 ,"Name" : "Sumedha" , "Department" : "Developing", "Salary" : 65000},
+{"EmpId" : 7 ,"Name" : "Ramu" , "Department" : "Sales", "Salary" : 45000},
+{"EmpId" : 8 ,"Name" : "Ram" , "Department" : "Developing", "Salary" : 60000},
+])
+
+
+9. Implementing Groupby - to find total salary of all employees in department.
+db.department.aggregate([{$group : {_id : null, total_salary : {$sum : "$Salary"}}}])
+ 
+--To find total salary of department wise employees.
+db.department.aggregate([{$group : {_id : "$Department", total_salary : {$sum : "$Salary"}}}])
+
+10.Implementing OrderBy
+
+db.department.find().sort({Department : 1})
