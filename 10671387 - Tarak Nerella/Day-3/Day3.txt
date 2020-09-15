@@ -1,1 +1,133 @@
+-----------------------------------------------
+Class Task
+-----------------------------------------------
+use Day3
+
+db.Student.insert({"S_ID":3,"S_Name":"Tarak Krishna","Course":"MERN","Fee":10000})
+db.Student.insertOne({"_id":3,"S_ID":4,"S_Name":"Ashish","Course":"AWS","Fee":10000})
+
+db.Student.insertMany([{"_id":5,"S_ID":5,"S_Name":"Rahul","Course":"Python","Fee":1000},{"_id":6,"S_ID":6,"S_Name":"Kalyan","Course":"Java","Fee":1500}])
+db.Student.find()
+
+db.Student.insert([{"_id":8,"S_ID":8,"S_Name":"Anurag","Course":"Python","Fee":1000},{"_id":9,"S_ID":9,"S_Name":"Likith","Course":"Java","Fee":1500}])
+
+db.Student.insert([
+{ 
+    "_id" : 4.0, 
+    "S_ID" : 4.0, 
+    "S_Name" : "Bhargav", 
+    "Course" : "AWS", 
+    "Fee" : 10000.0
+},
+{ 
+    "_id" : 6.0, 
+    "S_ID" : 6.0, 
+    "S_Name" : "Kalyan", 
+    "Course" : "Java", 
+    "Fee" : 1500.0
+},
+{ 
+    "_id" : 7.0, 
+    "S_ID" : 7.0, 
+    "S_Name" : "Ashish", 
+    "Course" : "AWS", 
+    "Fee" : 10000.0
+},
+{ 
+    "_id" : 8.0, 
+    "S_ID" : 8.0, 
+    "S_Name" : "Anurag", 
+    "Course" : "Python", 
+    "Fee" : 1000.0
+},
+{ 
+    "_id" : 9.0, 
+    "S_ID" : 9.0, 
+    "S_Name" : "Likith", 
+    "Course" : "Java", 
+    "Fee" : 1500.0
+},
+{ 
+    "_id" : 3.0, 
+    "S_ID" : 4.0, 
+    "S_Name" : "Ashish", 
+    "Course" : "AWS", 
+    "Fee" : 10000.0
+}])
+
+db.profile.update({'Name':'Tarak'},{$set:{'Name':'Tarak Krishna'}})
+db.profile.remove({'Name':'Tarak'})
+db.profile.drop()
+
+db.Student.update({Fee:{$gt :5000}},{$set:{Course:"AWS"}})
+db.Student.remove({S_ID:{lt:4}})
+db.Student.find({Fee:{$eq:1000}})
+db.Student.find({S_ID:{$in:[5,8]}})
+db.Student.update({Course:"Python"},{$set:{Fee:1500}})
+db.Student.remove({_id:5})
+
+------------------------------------------------------------------
+Lab Task
+------------------------------------------------------------------
+
+use Assignment
+db.restaurants.insert({
+  "address": {
+     "building": "1007",
+     "coord": [ -73.856077, 40.848447 ],
+     "street": "Morris Park Ave",
+     "zipcode": "10462"
+  },
+  "borough": "Bronx",
+  "cuisine": "Bakery",
+  "grades": [
+     { "date": { "$date": 1393804800000 }, "grade": "A", "score": 2 },
+     { "date": { "$date": 1378857600000 }, "grade": "A", "score": 6 },
+     { "date": { "$date": 1358985600000 }, "grade": "A", "score": 10 },
+     { "date": { "$date": 1322006400000 }, "grade": "A", "score": 9 },
+     { "date": { "$date": 1299715200000 }, "grade": "B", "score": 14 }
+  ],
+  "name": "Morris Park Bake Shop",
+  "restaurant_id": "30075445"
+})
+
+db.restaurants.find()
+
+db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1})
+
+db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1,"_id":0})
+
+db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"address.zipcode" :1,"_id":0})
+
+db.restaurants.find({"borough": "Bronx"})
+
+db.restaurants.find({"borough": "Bronx"}).limit(5)
+
+db.restaurants.find({"borough": "Bronx"}).skip(5).limit(5)
+
+db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 90}}}})
+
+db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 80 , $lt :100}}}})
+
+db.restaurants.find({"address.coord" : {$lt : -95.754168}})
+
+db.restaurants.find({$and:[
+{"cuisine" : {$ne :"American "}},
+{"grades.score" : {$gt : 70}},
+{"address.coord" : {$lt : -65.754168}}
+]})                 
+
+db.restaurants.find({"cuisine" : {$ne : "American "},"grades.score" :{$gt: 70},
+"address.coord" : {$lt : -65.754168}})
+                     
+  
+db.restaurants.find({"cuisine" : {$ne : "American "},"grades.grade" :"A",
+"borough": {$ne : "Brooklyn"}}).sort({"cuisine":-1})  
+                    
+ 
+db.restaurants.find({name: /^Wil/},
+{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1})        
+
+db.restaurants.find({name: /ces$/},
+{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1})  
 
