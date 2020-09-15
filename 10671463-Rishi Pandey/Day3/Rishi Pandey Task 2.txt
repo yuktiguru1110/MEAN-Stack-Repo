@@ -1,0 +1,20 @@
+Live Tasks Day3
+
+1.	Show the record where name =”Akash”
+Solu - db.Registration.find({"name":"Akash"})
+
+
+2.	Show the record where location =”Mumbai”
+Solu -db.Profile.find({"Location":"Mumbai"})
+
+
+3.	Display people whose fees is less than 50000.
+Solu - db.Registration.find({"fees" :{$lt:50000}})
+
+
+4.	Display the document where fees <20000 and course is java
+Solu -db.Registration.find({$and:[{"fees":{$lt:20000}},{"course":"java"}]})
+
+
+5.	Display the document where fees between 20000 and 50000 and course is java
+Solu -db.Registration.find({$and:[{"fees":{$gte:20000,$lte:50000}},{"course":"java"}]})

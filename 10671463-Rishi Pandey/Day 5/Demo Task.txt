@@ -1,0 +1,73 @@
+################ Demo Task#################
+
+
+
+Task 1.ADD AND REMOVE
+
+db.Registration.updateMany({},{$set:{"Age":new Number()}})
+
+db.Registration.updateMany({},{$unset:{"joinDate":""}})
+
+
+Task 2.write query in which name does not contain "bc"
+
+db.Registration.find({"name":{$not:/bc/}})
+
+
+Task 3.Cursor Query
+
+var MyRegis=db.Registration.find({"RegNo":{$gt:2}})
+while(MyRegis.hasNext())
+{
+
+print(tojson(MyRegis.next()))
+}
+
+
+
+Task 4 JOINS 
+
+db.orders.insert([
+   { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+   { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+   { "_id" : 3  }
+])
+
+
+    
+db.inventory.insert([
+   { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+   { "_id" : 2, "sku" : "bread", description: "product 2", "instock" : 80 },
+   { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+   { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+   { "_id" : 5, "sku": null, description: "Incomplete" },
+   { "_id" : 6 }
+])
+
+      
+    
+db.orders.aggregate([
+   {
+     $lookup:
+       {
+         from: "inventory",
+         localField: "item",
+         foreignField: "sku",
+         as: "inventory_docs"
+       }
+  }
+])
+
+
+
+Task 5 using the available collection/table implement the group by in MongoDB
+
+- db.Registration.aggregate([
+{ $group:{ _id:{"name":"$NAME","course":"$COURSE"},count:{$sum:1}}}])
+
+
+
+Task 6 using the available collection/table implement the Order by in MongoDB
+
+-db.Registration.find()._addSpecial("$orderby",{"RegNo":1})
+
