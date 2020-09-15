@@ -1,0 +1,114 @@
+Day 5:
+
+use UserProfile
+show tables
+
+db.data.find()
+
+db.data.updateMany(
+{},
+{ $set : { "Age" : new Number() } }
+)
+
+db.data.updateMany(
+{},
+{ $unset : { "Age": "" } }
+)
+
+db.data.find(
+{ "name": /B/ }
+)
+
+db.data.find(
+{ "name" : { $not : /D/ } }
+)
+
+db.data.count()
+
+db.data.count( 
+{ "name" : "ABC" }
+)
+
+db.data.find()
+
+use Sanket
+show tables
+db.t2.find()
+
+var R= db.t2.find( { "Fees" : { $gt : 500 } } )
+
+while(R.hasNext())
+{
+    print( tojson( R.next() ) )
+}
+
+db.orders.insert([
+   { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+   { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+   { "_id" : 3  }
+])
+
+db.orders.find()
+
+db.inventory.insert([
+   { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+   { "_id" : 2, "sku" : "bread", description: "product 2", "instock" : 80 },
+   { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+   { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+   { "_id" : 5, "sku": null, description: "Incomplete" },
+   { "_id" : 6 }
+])
+
+db.orders.aggregate([
+{ $lookup :
+    { from: 'inventory',
+        localField: 'item',
+        foreignField: 'sku',
+        as: 'ProductDetails'
+    }
+}
+])
+        
+db.t2.find()
+
+db.t2.aggregate(
+[
+{ "$group" : { _id: "$Course", count : { $sum : 1 } } }
+],
+{ "$sort" : { "Course" : 1 } }
+)
+
+db.t2.count()
+
+
+Day 5 Questions:
+
+db.restaurants.find().sort( { "name" : -1 } )
+
+db.restaurants.find().sort( { "cuisine" : -1 , "borough" : -1 } )
+
+db.restaurants.find(
+{"address.street" : { $ne : "" } }
+)
+
+db.restaurants.find(
+{"address.coord" : "Double" }
+)
+
+db.restaurants.find(
+{ "grades.score" : { $mod : [7,0] } },
+{"_id" : 1, "name" : 1, "address.grades" : 1 }
+)
+
+db.restaurants.find(
+{ "name" : /mon/ },
+{"name" : 1, "borough" : 1, "address.coord.0" : 1, "address.coord.1" : 1}
+)
+
+db.restaurants.find(
+{ "name" : /^Mad/ },
+{"name" : 1, "borough" : 1, "address.coord.0" : 1, "address.coord.1" : 1}
+)
+
+
+

@@ -1,0 +1,96 @@
+-------------
+1- FORM1.HTML
+-------------
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="js/valid.js"></script>
+
+        <h1>Welcome</h1>
+    </head>
+        <body>
+            <form name="frm1" onsubmit="return j()"  action=index.html >
+                Name <input name="t1" type="text"> Designation <input name="t2" type="text">
+                <input type="submit" onclick="j()"> 
+            </form>
+        </body>
+    
+</html>
+
+-------------
+2- FORM2.HTML
+-------------
+
+<!DOCTYPE html>
+<html>
+    <head> 
+        <script>
+            var person = {
+                name: "Sanket",
+                Age: 24
+            }
+            console.log(person);
+        </script>
+    </head>
+        <body>
+            person.name
+        </body>
+   
+</html>
+
+-------------
+3- INDEX.HTML
+-------------
+
+<!DOCTYPE html>
+<html>
+    <head></head>
+
+    <body>
+        <h1> Hello </h1>
+     </body>
+    
+</html>
+
+-----------
+4- VALID.JS
+-----------
+
+function j()
+{
+    var name=frm1.t1.value;
+    var desig=frm1.t2.value;
+    if(name=="")
+    {
+        alert("Enter Name");
+        frm1.t1.focus();
+        return false;
+    }
+    else if(desig=="")
+    {
+        alert("Enter Designation");
+        frm1.t2.focus();
+        return false;
+    }
+    else
+    {
+    return true;
+    }
+
+}
+
+
+-----------
+5- MONGO DB
+-----------
+
+use Sanket
+
+db.t1.insert({"UID":"1" , "Name":"Raj" , "Designation" : "Manager" , "Location": "Bangalore"},
+             {"UID":"2" , "Name":"Aman" , "Designation" : "Associate" , "Location": "Bangalore"})
+db.t2.insert({"RegNo":"111" , "Name":"Raj" , "Course" : "C++" , "Fees": "500"},
+             {"RegNo":"112" , "Name":"Anant" , "Course" : "Jave" , "Fees": "1000"})
+             
+show collections
+

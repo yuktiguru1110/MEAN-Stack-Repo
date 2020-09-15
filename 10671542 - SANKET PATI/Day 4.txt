@@ -1,0 +1,169 @@
+DAY - 4
+----------------------------------------------------------------------------------------------------------------
+db.t2.deleteOne( {Course: "Jave"} )
+
+db.t2.find()
+
+db.t2.deleteMany( {Course: "C"} )
+
+db.t2.deleteMany( {Course: "C#",Name: "Anant"} )
+
+db.t2.remove({})
+
+db.t1.find()
+db.t2.find()
+db.t2.drop()
+
+db.t1.deleteMany( {_id: ObjectId("5f5c4f81429e13c3cc734938")} )
+
+db.t1.updateOne(
+{ Name: "Anmol" },
+{ $set: { Name: "Raj" } }
+)
+
+db.t2.insert([
+{"RegNo":"111" , "Name":"Raj" , "Course" : "C++" , "Fees": 500},
+{"RegNo":"112" , "Name":"Anant" , "Course" : "Java" , "Fees": 1000},
+{"RegNo":"113" , "Name":"Aman" , "Course" : "Java" , "Fees": 1000},
+{"RegNo":"114" , "Name":"Samyak" , "Course" : "C++" , "Fees": 500}
+])
+
+db.t2.updateMany(
+{ Course: "Java" },
+{ $inc: { Fees : 1000} }
+)
+
+db.t2.updateMany(
+{ Course: "Java" },
+{ $inc: { Fees : 10} }
+)
+
+db.t2.updateMany(
+{ Course: "Java" },
+{ $inc: { Fees : 10} }
+)
+
+db.t2.updateMany(
+{ Course: "Java" },
+{ $mul: { Fees : 1.1} }
+)
+
+
+use person
+
+ db.person.insertMany( [
+ { _id : "1001", name: "Franklin Roosevelt", quote: "More than just an end to war, we want an end to the beginnings of all wars." },
+ { _id : "1002", name: "peter Dale Scott", quote:"I guess that when you invade a nation of warlords, you end up having to deal with warlords." },
+ { _id : "1003", name: "Robert E. Lee", quote: "What a cruel thing war is... to fill our hearts with hatred instead of love for our neighbors."},
+ { _id : "1004", name: "William Tecumseh Sherman", quote : "War is cruelty. There is no use trying to reform it. The crueler it is, the sooner it will be over." }
+ ] );
+ 
+ db
+ show collections
+ 
+ db.person.find().pretty()
+ 
+ db.person.createIndex({"quote":"text"})
+ 
+ db.person.find( { $text: { $search: "warlords" } } ).pretty()
+ 
+ db.person.getIndexes()
+ 
+ use Sanket
+ 
+ show collections
+ 
+ db.t2.find()
+ 
+ db.t2.createIndex( {"RegNo": 1} )
+ 
+ db.t2.getIndexes()
+ 
+ db.t2.createIndex( {RegNo: 1, Name:1} )
+  
+db.t2.dropIndex( {RegNo: 1, Name:1} ) 
+
+use mydatabase
+
+for(i=0;i<10000;i++)
+{
+    db.students.insert(
+    {"student_id":i, "Name": "Raj"}
+  )
+}
+
+use mydatabase
+db.students.find()
+
+
+db.students.find( {"student_id":9999} )
+db.students.findOne( {"student_id":9999} )
+
+db.students.createIndex( { "student_id":1 } )
+db.students.find( {"student_id":9999} )
+db.students.findOne( {"student_id":9999} )
+
+db.students.find( {"student_id": 1000} ).explain()
+
+
+use UserProfile
+
+db.data.insert(
+{"contact":1234567890 , "dob":"01-01-1991", "gender":"M", "name":"ABC", "user_name":"abcuser"}
+)
+
+db.data.find()
+
+db.data.ensureIndex( {"user_name":1, "gender":1} )
+
+db.data.find( {"user_name":"abcuser"},{"gender":"M"} ).explain()
+
+------------------------------------------------------------------------------------------------------
+LAB TASK:
+------------------------------------------------------------------------------------------------------
+use restaurants
+db.restaurants.find()
+
+db.restaurants.find( { "name" : /Reg/ } )
+ 
+db.restaurants.find(
+{ "borough" : "Bronx" , "cuisine" : { $in : ["American", "Chinese"] } }
+)
+
+db.restaurants.find(
+{ "borough": { $in : [ "Staten Island", "Queens", "Bronxor Brooklyn" ] } },
+{ "_id" : 1, "name" : 1, "borough" : 1, "cuisine" : 1 }
+)
+
+db.restaurants.find(
+{ "borough": { $nin : [ "Staten Island", "Queens", "Bronxor Brooklyn" ] } },
+{ "_id" : 1, "name" : 1, "borough" : 1, "cuisine" : 1 }
+)
+
+db.restaurants.find(
+
+{ "grades.score" : { $lt : 11.0 } },
+{ "_id" : 1, "name" : 1, "borough" : 1, "cuisine" : 1 }
+) 
+    
+
+db.restaurants.find(
+{ $or : [ { "cuisine": { $nin : [ "American", "Chinese" ] } }, { "name" : /^Wil/ } ] },
+{ "_id" : 1, "name" : 1, "borough" : 1, "cuisine" : 1 }
+)
+
+db.restaurants.find(
+{ $and : [ { "grades.grade" : "A"} , { "grades.score" : 11 } , { "grades.date" : "2014-08-11T00:00:00Z" } ] },
+{ "_id" : 1, "name" : 1, "grades.grade" : 1 }
+)
+
+db.restaurants.find(
+{ $and : [ { "grades.1.grade" : "A"} , { "grades.1.score" : 9 } , { "grades.1.date" : "2014-08-11T00:00:00Z" } ] },
+{ "_id" : 1, "name" : 1, "grades" : 1 }
+)
+
+db.restaurants.find({"address.coord.1": {$gt : 42, $lte : 52}},{"restaurant_id" : 1,"name":1,"address":1,"coord":1});
+
+db.restaurants.find().sort({"name":1});
+
+
