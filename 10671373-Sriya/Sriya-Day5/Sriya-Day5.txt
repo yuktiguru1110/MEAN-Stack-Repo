@@ -1,0 +1,60 @@
+//Creating a new column
+
+db.Profile.updateMany({},{$set:{join_date:new Date()}})
+db.Profile.find()
+db.Profile.updateMany(
+{},
+{ $set : { "Age" : 5 } }
+)
+ db.Profile.updateMany(
+    { },
+    { $unset: { "join_date": "" } }
+)
+
+//NOT LIKE "%pattern%"
+
+db.Profile.find()
+db.Profile.find(
+    { name:{$not:/ya/} } 
+)
+
+//Displaying All Records
+
+var myProfile=db.Profile.find({uid:{$gt:3}})
+
+while(myProfile.hasNext())
+{
+    print(tojson(myProfile.next()))
+}
+
+Tasks :
+1. Using the available Collection/Table implement the Group By in
+mongoDb.
+
+ 2. Using the available Collection/Table implement the Orderby By in
+mongoDb.
+
+db.Registration.find()
+db.Registration.aggregate([
+    {"$group" : {_id:"$course",TotalFeesforeachCourse:{ $sum: "$fees" },total:{ $sum: 1 }
+    }}    
+])
+
+db.Registration.find({fees:{$gt:4000}}).sort({fees:-1,course:-1})
+
+
+//LABTASK
+
+db.restaurants.find({}).sort({name:-1,_id:-1,address:-1,borough:-1,cuisine:-1,grades:-1,restaurant_id:-1})  
+ 
+db.restaurants.find({}).sort({cuisine:1,borough:-1})    
+
+db.restaurants.find({"address.street":{$exists:true}})
+
+db.restaurants.find({"address.coord":{$type:"double"}})
+
+db.restaurants.find({"grades.score" :{$mod : [7,0]}},{restaurant_id:1,name:1,grades:1})
+
+db.restaurants.find({name:{ $in: [ /mon/] } }, {cuisine:1, name:1,borough:1,latitude: { $arrayElemAt: [ "$address.coord", 0 ] },longitude: { $arrayElemAt: [ "$address.coord", 1] },_id:0})  
+
+db.restaurants.find({name:{ $in: [ /^Mad/] } }, {cuisine:1, name:1,borough:1,_id:0,latitude: { $arrayElemAt: [ "$address.coord", 0 ] },longitude: { $arrayElemAt: [ "$address.coord", 1] }})     
