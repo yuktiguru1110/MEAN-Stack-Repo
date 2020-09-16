@@ -36,5 +36,3 @@ while(cusJS.hasNext())
 ---Group By
 ---Orderby By
 db.Registration.aggregate([{"$group" : {_id:"$course",CourseFee:{ $sum: "$fees" },total:{ $sum:1}}}]).sort({fees:-1})
-
-db.Registration.find({fees:{$gt:4000}}).sort({fees:-1,course:-1})
