@@ -1,0 +1,39 @@
+Table
+-----------------------------
+Train{
+Train_number : Primary Key,
+Train_name,
+Destnation,
+AC_Fare,
+General_Fare,
+}
+
+Passenger{
+Name,
+Age,
+Gender,
+Address,
+Status,
+Category,
+Booked_Date
+Train_number,
+
+}
+
+
+TrainStatus{
+Train_number : primary key, foreign key,
+Train_date,
+AC_Booked_Seats,
+General_Booked_Seats,
+General_Seats,
+AC_Seats
+}
+
+
+TicketBooking{
+Train_number : Foreign Key,
+Category,
+Booked_Date
+}
+

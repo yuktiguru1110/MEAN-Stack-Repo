@@ -1,0 +1,85 @@
+use preethi
+db.Registration.updateMany(
+{},
+{ $set : { join_date : new Date() } }
+)
+db.Registration.updateMany(
+{},
+{ $set : { "Age" : new Number() } }
+)
+db.Registration.updateMany(
+{},
+{ $unset : { "join_date" : "" } }
+)
+db.Registration.find({"name":/re/})
+db.Registration.find({"name": {$not:/re/}})
+db.employee.count()
+db.Registration.count({"uid":{$gt:1003}})
+var reg = db.Registration.find({"uid":{$gt:1003}});
+   while(reg.hasNext())
+   {
+      print(tojson(reg.next()))
+   }
+db.orders.find()
+db.orders.insert([
+   { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+   { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+   { "_id" : 3  }
+])
+db.inventory.insertMany([
+   { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+   { "_id" : 2, "sku" : "bread", description: "product 2", "instock" : 80 },
+   { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+   { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+   { "_id" : 5, "sku": null, description: "Incomplete" },
+   { "_id" : 6 }
+])   
+db.inventory.find()
+db.orders.aggregate([{$lookup:{from:"inventory", localField:"item",foreignField:"sku",as:"inventory_docs"}}])
+db.Registration.find()
+db.Registration.aggregate({$group:{_id:"$name", count:{$sum:1}}})
+db.Registration.aggregate({$sort:{"uid":1,"name":-1}})
+db.Registration.count()
+use restaurants
+db.restaurants.find().sort({"name":-1})
+db.restaurants.find().sort( {"cuisine":1,"borough" : -1,})
+db.restaurants.find(
+                     {"address.street" : 
+                         { $exists : true } 
+                     } 
+                   )
+ db.restaurants.find(
+                    {"address.coord" : 
+                       {$type : 1}
+                    }
+                   )
+db.restaurants.find(
+                      {"grades.score" :
+                         {$mod : [7,0]}
+                      },
+                         {"restaurant_id" : 1,"name":1,"grades":1}
+                    )
+ db.restaurants.find(
+                   { name : 
+                     { $regex : "mon.*", $options: "i" } 
+                   },
+                       {
+                         "name":1,
+                         "borough":1,
+                         "address.coord":1,
+                         "cuisine" :1
+                        }
+                   )
+ db.restaurants.find(
+                   { name : 
+                     { $regex : /^Mad/i, } 
+                   },
+                       {
+                         "name":1,
+                         "borough":1,
+                         "address.coord":1,
+                         "cuisine" :1
+                        }
+                   )
+                          
+                          
