@@ -1,0 +1,92 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+LAB
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+use Shefali
+
+db.registration.insert([{"RegNo":"101", "Name":"Jan", "Course":"MEAN", "Fees":3000},
+{"RegNo":"102", "Name":"Sam", "Course":"JAVA", "Fees":2000},
+{"RegNo":"103", "Name":"Jason", "Course":"C++", "Fees":3000},
+{"RegNo":"104", "Name":"Jamy", "Course":"C", "Fees":2500},
+{"RegNo":"105", "Name":"Mark", "Course":"DOTNET", "Fees":3000},
+{"RegNo":"106", "Name":"Bob", "Course":"DOTNET", "Fees":3000},
+{"RegNo":"107", "Name":"Tom", "Course":"Angular", "Fees":4000},
+{"RegNo":"108", "Name":"Feb", "Course":"Devops", "Fees":3500}])
+
+db.profile.insert({"UID":"102", "Name":"Mark", "Designation":"Student", "Location":"Colarado"})
+db.profile.insert({"UID":"102", "Name":"Henry", "Designation":"Student", "Location":"New York"})
+db.profile.insert({"UID":"102", "Name":"Ted", "Designation":"Student", "Location":"New Yo
+db.profile.insert([{"UID":"105", "Name":"Jacob", "Designation":"Student", "Location":"New York"},
+{"UID":"106", "Name":"Micheal", "Designation":"Student", "Location":"Texas"},
+{"UID":"107", "Name":"Mary", "Designation":"Student", "Location":"New Jersy"
+
+db.Reg.find()
+db.Reg.deleteOne({Course:"C++"})
+db.Reg.deleteMany({Course:"DOTNET"})
+db.Reg.find().sort({_id:-1}).limit(1)
+db.Reg.deleteMany({$and:[{RegNo:"104"},{Name:"Jamy"}]})
+db.Reg.remove({})
+
+
+db.registration.update({RegNo:"102"},{$set:{Fees:4000}})
+db.registration.updateMany({},{$inc:{Fees:1000}})
+db.registration.updateMany({Course:"DOTNET"},{$mul:{Fees:1.1}})
+
+db.person.insertMany( [
+{ _id : "1001", name: "Franklin Roosevelt", quote: "More than just an end to war, we want an end to the beginnings of all wars." },
+{ _id : "1002", name: "peter Dale Scott", quote:"I guess that when you invade a nation of warlords, you end up having to deal with warlords." },
+{ _id : "1003", name: "Robert E. Lee", quote: "What a cruel thing war is... to fill our hearts with hatred instead of love for our neighbors."},
+{ _id : "1004", name: "William Tecumseh Sherman", quote : "War is cruelty. There is no use trying to reform it. The crueler it is, the sooner it will be over." }
+] )
+
+db.person.find().pretty()
+db.person.createIndex({"quote":"text"})
+db.person.find( { $text: { $search: "war" } } ).pretty()
+
+
+db.person.createIndex({"quote":"text"})
+
+db.person.find( { $text: { $search: "war" } } )
+
+db.registration.getIndexes()
+db.registration.find()
+db.registration.createIndex({RegNo:1})
+db.registration.createIndex({Name:1,Course:1})
+db.registration.dropIndex({RegNo:1})
+
+for(i=0;i<1000;++i)
+{
+    db.mypost.insert({"student_id":i,"Name":"Jai"});
+}
+db.mypost.find({})
+db.mypost.find({"student_id":999})
+db.mypost.findOne({"student_id":999})
+db.mypost.createIndex({"student_id":1})
+
+db.registration.find().sort({"RegNo":1,"Name":1})
+
+db.user.insert({"contact":"1122334455", "dod":"01-12-1997", "gender":"M", "name":"Raj","user_name":"raj_123"})
+db.user.find()
+db.user.ensureIndex({gender:1,user_name:1})
+db.user.find({gender:"M"},{user_name:1,_id:0}).explain()
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+TASK
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+db.Restaurants.find()
+
+1. db.Restaurants.createIndex({name:"text"})
+db.Restaurants.find({$text:{$search:"Reg"}},{restaurant_id:1,name:1,borough:1,cuisine:1})
+2. db.Restaurants.find({borough:"Bronx" , $or:[{ "cuisine" : "American " },{ "cuisine" : "Chinese" }]})
+3. db.Restaurants.find({$or:[{borough:"Staten Island"},{borough:"Queens"},{borough:"Bronxor Brooklyn"}]},{restaurant_id:1,name:1,borough:1,cuisine:1})
+4. db.Restaurants.find({"borough" :{$nin :["Staten Island","Queens","Bronx","Brooklyn"]}},{restaurant_id:1,name:1,borough:1,cuisine:1})
+5. db.Restaurants.find({cuisine:{$nin:["American","Chinees"]},$text:{$search:"Wil"}},{restaurant_id:1,name:1,borough:1,cuisine:1})
+6. db.Restaurants.find({"grades.score":{$not:{$gt:10}}},{restaurant_id:1,name:1,borough:1,cuisine:1})
+7. db.Restaurants.find({"grades.date": ISODate("2014-08-11T00:00:00Z"),"grades.grade":"A" ,"grades.score" : 11},{"restaurant_id" : 1,"name":1,"grades":1})
+8. db.Restaurants.find({"grades.1.date": ISODate("2014-08-11T00:00:00Z"),"grades.1.grade":"A""grades.1.score" : 9},{"restaurant_id" : 1,"name":1,"grades":1})
+9. db.Restaurants.find({"address.coord.1": {$gt : 42, $lte : 52}},{"restaurant_id" : 1,"name":1,"address":1,"coord":1})
+10. db.Restaurants.find().sort({"name":1})
