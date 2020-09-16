@@ -1,0 +1,88 @@
+Task 1 : Form Validation
+
+HTML :
+
+<!DOCTYPE html> 
+    <html>
+        <head>
+            <script src="js\test.js"></script>
+
+            
+
+        </head>
+
+        <body>
+            <h1>Java Script</h1>
+            <form name=form1 method=post onsubmit="return jfun1()" action="test.html">
+                Name:<input type=text id=name>
+                Designation : <input type=text id=designation>
+                <input type="submit" value="test" >
+            </form>
+
+            
+        </body>
+
+    </html>
+
+
+SCRIPT:
+
+function  jfun1()
+                {
+                    
+                    var name = form1.name.value;
+                    var designation = form1.designation.value;
+
+                    if(name=="")
+                    {
+                        alert("Please Enter the Name");
+                        form1.name.focus();
+                        return false;
+                        
+                    }
+                    
+                    else if(designation=="")
+                    {
+                        alert("Please Enter the Designation");
+                        form1.designation.focus();
+                        return false;
+
+                    }
+
+                    else
+                    {
+                        return true;
+
+                    }
+                }
+
+
+
+TASK 2: Database design
+
+use DilleshKumar
+db.Profile.insert
+(
+    
+    {
+        "UID":1,
+        "Name" : "Dillesh Kumar",
+        "Designation" : "Student",
+        "Location":"Vizag"
+    }
+
+)
+
+db.Registration.insert
+(
+    
+    {
+        "RID":1,
+        "Name" : "Dillesh Kumar",
+        "Course":"MEAN",
+        "Fee":500
+        
+        
+    }
+
+)
