@@ -1,0 +1,68 @@
+=======================Lab Task=======================
+use task1db
+db.restarunt.find()
+db.restarunt.find({}).sort({"name":-1})
+
+db.restarunt.find().sort({"cuisine":1},{"borough":-1})
+
+db.restarunt.find({"address.street":{$exists:true}})
+
+db.restarunt.find({"address.coord":{$type:1.0}})
+
+db.restaurants.find( {"grades.score" :{$mod : [7,0]}},{"restaurant_id" : 1,"name":1,"grades":1});
+
+db.restarunt.find({"name":/.*mon.*/},
+{"name":1,"borough":1,"address.coord.1":1,"address.coord.2":1,"cuisine" :1})
+
+db.restarunt.find({"name":/^Mad/},
+{"name":1,"borough":1,"address.coord.1":1,"address.coord.2":1,"cuisine" :1})
+
+
+========================Daily Task====================
+db
+use dinesh
+db.profile.updateMany({},
+{$set:{something:new Number()}})
+db.profile.find()
+db.profile.updateMany({},
+{$unset:{age:1}})
+var emp=db.profile.find({"uid":{$gt:0}})
+while(emp.hasNext())
+{
+    print(tojson((emp.next())));
+}
+
+db.orders.insert([
+   { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+   { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+   { "_id" : 3  },
+   ])
+   db.orders.insert({"_id":4 ,"item":"nothing","price":15})
+
+db.inventory.insert([
+   { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+   { "_id" : 2, "sku" : "bread", description: "product 2", "instock" : 80 },
+   { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+   { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+   { "_id" : 5, "sku": null, description: "Incomplete" },
+   { "_id" : 6 }
+])
+db.orders.aggregate([
+   {
+     $lookup:
+       {
+         from: "inventory",
+         localField: "item",
+         foreignField: "sku",
+         as: "inventory_docs"
+       }
+  }
+])
+
+db.profile.aggregate({$group:{_id:"$uid",name:{$push:"$name"}}})
+db.profile.find({}).sort({"name" : 1 })
+db.profile.find()
+db.profile.count()
+
+
+
