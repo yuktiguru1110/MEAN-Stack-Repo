@@ -90,3 +90,4 @@ for(i=0;i<100000;++i)
 }
 
 db.Dummy.dropIndex({S_id:1})
+
