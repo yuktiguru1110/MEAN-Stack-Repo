@@ -12,3 +12,30 @@ db.restaurants.find({"grades.score" :{$mod : [7,0]}},{"restaurant_id":1,"name":1
 db.restaurants.find({name:{$regex:"Mor.*"}},{"name":1,"borough":1,"address.coord":1,"cuisine" :1})
 
 db.restaurants.find({name:{ $regex:/^Mor/i}},{"name":1,"borough":1,"address.coord":1,"cuisine":1})
+
+--------------------------------------------------Class Task-----------------------------------------------------------
+----------------------------------
+Adding a row to table
+---------------------------------
+db.Profile.updateMany({},{$set:{joindate:new Date()}})
+db.Profile.updateMany({},{$set:{Age:18}})
+db.Profile.updateMany({},{$unset:{"joindate":""}})
+
+---------------------------
+Pattern Matching
+---------------------------
+db.Profile.find({name:{$not:/hu/}})
+
+------------------------------------
+Custom JS
+-----------------------------------
+var prof1=db.Profile.find({uid:{$gt:4}})
+while(prof1.hasNext())
+{
+    print(tojson(prof1.next()))
+}
+
+-----------------------------------
+Group By,Orderby By
+-----------------------------------
+db.Registration.aggregate([{"$group":{_id:"$course",CourseFee:{ $sum: "$fees" },total:{ $sum:1}}}]).sort({fees:-1})
