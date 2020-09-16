@@ -14,3 +14,27 @@ Lab Task
 6.) db.restaurants.find({name:{$regex:"Mor.*"}},{"name":1,"borough":1,"address.coord":1,"cuisine" :1})
 
 7.) db.restaurants.find({name:{ $regex:/^Mor/i}},{"name":1,"borough":1,"address.coord":1,"cuisine":1})
+
+------------------------------------------------------------------------------------------------------------------
+Class Task
+------------------------------------------------------------------------------------------------------------------
+---Adding a new field to collection
+db.Profile.updateMany({},{$set:{join_date:new Date()}})
+db.Profile.updateMany({},{$set:{Age:21}})
+db.Profile.updateMany({},{$unset:{"join_date":""}})
+
+---Pattern
+db.Profile.find({name:{$not:/Ta/}})
+
+---Displaying records using custom JS
+var cusJS=db.Profile.find({uid:{$gt:2}})
+while(cusJS.hasNext())
+{
+    print(tojson(cusJS.next()))
+}
+
+---Group By
+---Orderby By
+db.Registration.aggregate([{"$group" : {_id:"$course",CourseFee:{ $sum: "$fees" },total:{ $sum:1}}}]).sort({fees:-1})
+
+db.Registration.find({fees:{$gt:4000}}).sort({fees:-1,course:-1})
