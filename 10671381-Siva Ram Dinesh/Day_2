@@ -1,0 +1,107 @@
+==============================JS validations===============
+-----------validjs---------------------
+function myfunction()
+             {
+                var name=frm.t1.value;
+                var des=frm.t2.value;
+                if(name=="")
+                {
+                    alert("enter name");
+                    frm.t1.focus();
+                    return false;
+                } 
+                if(des=="")
+                {
+                    alert("enter designtion");
+                    frm.t2.focus();
+                    return false;
+                    
+                }
+                else{
+                    return true;
+                }
+
+             }
+--------------------index.html--------------
+<html>
+    <head>
+      <script src="js/valid.js">
+
+      </script>
+    </head>
+    <body>
+        
+        <h1>Java Script
+        </h1>
+        <form name="frm" onsubmit="return myfunction()" action="test.html">
+        Name:<input type="text" name="t1">
+        Designation:<input type="text" name="t2">
+        <input type="submit" >
+        </form>
+       
+    </body>
+</html>
+-------------------test.html-------------
+<h1>validation success</h1>
+
+
+========================onload event==================
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>js test</title>
+        <script>
+            function jfun2()
+            {
+    
+                window.open("test2.html", width=200 ,height=300);
+           }
+        </script>
+        
+    </head>
+    <body onload="jfun2()">
+        <h1>web portal</h1>
+    
+        
+   
+    </body>
+</html>
+
+
+
+MongoDb:
+
+===================creating collections======================
+use dinesh
+show dbs
+use test
+db.profile.insert({
+    "uid":125,
+    "name":"dinesh",
+    "designation":"developer",
+    "location":"chennai"
+})
+show collections
+db.registration.insert({
+    "regno":125455,
+    "name":"siva",
+    "course":"mean stack",
+    "fees":2000
+})
+show tables
+========================CRUD OPerations=====================
+db.createCollection("sample")
+show collections
+db.profile.update({
+    "name":"dinesh"
+},
+{
+    $set:
+    {
+        "uid":1040
+    }
+})
+
+db.registration.remove({"fees":2000})
+db.registration.drop()
+show tables
