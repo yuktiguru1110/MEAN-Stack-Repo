@@ -1,0 +1,231 @@
+show dbs
+use mihir
+show tables
+db.registration.find()
+
+db.profile.insert([
+{"UID":2,
+"name":"MT",
+"Designation":"trainee",
+"Location":"mumbai",
+},
+{"UID":3,
+"name":"MT1",
+"Designation":"trainee",
+"Location":"mumbai",
+},
+{"UID":4,
+"name":"MT2",
+"Designation":"trainee",
+"Location":"mumbai",
+},
+{"UID":5,
+"name":"MT3",
+"Designation":"trainee",
+"Location":"mumbai",
+},
+])
+// delete command
+db.profile.find()
+//fist found with location as mumbai//1
+db.profile.deleteOne({"Location":"mumbai"})
+//delete last inserted record from table
+db.
+//delete all//2
+db.profile.deleteMany({"Location":"mumbai"})
+db.profile.insert({
+UID:6,
+name:"Amit",
+Designation:"tr",
+Location:"Delhi"})
+//
+db.profile.deleteMany({
+    $and:[
+        {"Location":"Delhi"},
+        {"name":"Amit"}
+    ]})
+db.profile.remove({})
+db.profile.find({})
+//last inserted delete
+db.profile.find().sort({"_id" : -1}).limit(1)
+db.profile.deleteOne($eq{_id:{rid:db.profile.find().sort({"_id" : -1}).limit(1)})
+//check
+
+//Update
+db.registration.find()
+db.profile.find()
+//registration:RegNo,name,course,fees
+//profile:UID,name,Designation,Location
+db.registration.insert({
+RegNo:"R001",
+Name:"me",
+Course:"c",
+Fees:200
+})
+//update////////////////////
+//1
+db.registration.update(
+{
+    RegNo:"R001"
+},
+{
+    $set:{Fees:4000}
+})
+
+//2
+db.registration.update(
+{},
+{
+    $inc:{Fees:40000}
+})
+db.registration.find({})
+//3 // increment//done
+db.registration.update(
+{
+    Course:"java"
+},
+
+    {$mul:{Fees:NumberDecimal("1.1")}}
+)
+/////////////////////////////////////////////////////
+//full text search
+use person
+db.person.insertMany( [{ _id : "1001", name: "Franklin Roosevelt", quote: "More than just an end to war, we want an end to the beginnings of all wars." },{ _id : "1002", name: "peter Dale Scott", quote:"I guess that when you invade a nation of warlords, you end up having to deal with warlords." },{ _id : "1003", name: "Robert E. Lee", quote: "What a cruel thing war is... to fill our hearts with hatred instead of love for our neighbors."},{ _id : "1004", name: "William Tecumseh Sherman", quote : "War is cruelty. There is no use trying to reform it. The crueler it is, the sooner it will be over." }] );
+db.person.find().pretty();
+db.person.createIndex({"quote":"text"})
+db.person.createIndex({"war":"text"})
+db.person.find( { $text: { $search: "war" } } ).pretty();
+
+db
+use LVCDB
+show collections
+show tables
+db.LVLCollection.find({})
+db.LVLCollection.getIndexes()
+db.LVLCollection.createIndex({RegNo:1})
+use Employee
+db.person.find({})
+//INDEX task
+//1
+db.LVLCollection.createIndex({RegNo:1})
+//2
+db.LVLCollection.getIndexes()
+//3 
+//check in gui
+
+db.LVLCollection.createIndex({Name:1,Location:1})
+db.LVLCollection.getIndexes()
+db.LVLCollection.find({})
+db.LVLCollection.dropIndex({Name:1,Location:1})
+
+var arrData = new Array(10000).fill({
+    "student_id": 1,
+    "Name": "Raj"
+})
+var arrData = new Array(10000).fill({
+    "student_id": 4,
+    "Name": "Raju"
+})
+db.collection.insertMany(arrData);
+
+db.collection.find({Name:"me"})
+db.collection.getIndexes({})
+db.collection.createIndex({Name:1})
+db.collection.find({Name:"me"})
+db.collection.dropIndex({Name:1})
+db.collection.find({Name:"Raj"})
+
+db
+db.UserProfile.insert({
+"contact":"8888962851",
+"dob":"10-12-2020",
+"gender":"M",
+"name":"ABC",
+"user_name":"abcuser"
+})
+db.UserProfile.createIndex({contact:1,name:1})
+db.UserProfile.ensureIndex({contact:1,name:1})//after insert 
+db.UserProfile.getIndexes()
+db.UserProfile.find({}).explain()
+
+use LtiTask
+//1
+db.restaurants.find(
+{name: { $regex: /^Wil/}},
+{
+"restaurant_id" : 1,
+"name":1,
+"borough":1,
+"cuisine" :1
+}
+);
+
+//2
+db.restaurants.find({
+    "borough":"Bronx",
+    $or:[{ "cuisine": 'American'},
+     {"cuisine": 'Chinese'}]
+}
+);
+
+//3
+db.restaurants.find({
+    { "borough": {$in:['Staten Island',  'Queens', 'Bronxor Brooklyn'] }},
+    {"_id": 1,"restaurant_id":1, "name": 1, "borough": 1, "cuisine": 1}
+})
+
+//4
+db.restaurants.find({
+    { "borough": {$in:['Staten Island',  'Queens', 'Bronxor Brooklyn'] }},
+    {"_id": 1,"restaurant_id":1, "name": 1, "borough": 1, "cuisine": 1}
+})
+
+//5
+db.restaurants.find(
+    {"grades.score": {$lte: 10}},
+    {"_id": 1, "restaurant_id":1,"name": 1, "borough": 1, "cuisine": 1}
+)
+
+//6
+db.restaurants.find(
+      {$or:[
+      {name: { $regex: /^Wil/}},
+      {"$and":[
+          {"cuisine":{$ne: "American"}},
+          {"cuisine":{$ne: "Chinese"}}
+          ]}
+      ]},
+      {"restaurant_id":1,"name":1,"borogh":1,"cuisine":1}
+);
+
+//7
+db.restaurants.find()
+db.restaurants.find(
+    $and(
+        
+      {"grades.grade":"A"}
+      ),
+      {"restaurant_id":1,"name":1,"grades":1}
+);
+
+//8
+db.restaurants.find(
+{    "grades.1.date": ISODate("2014-08-11T00:00:00Z"), 
+     "grades.1.grade":"A" , 
+     "grades.1.score" : 9
+},
+{"restaurant_id":1,"name":1,"grades":1})
+
+//9
+db.restaurants.find(
+{   
+     $and:[
+             {"grades.1.coord" : {$gt:42}},
+             {"grades.1.coord" : {$lt:52}}
+         ]
+},
+{"restaurant_id":1,"name":1,"address":1}
+)
+
+//10
+db.restaurants.find({}).sort({"name":1})
