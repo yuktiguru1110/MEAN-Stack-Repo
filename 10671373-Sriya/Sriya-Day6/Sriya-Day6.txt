@@ -1,0 +1,109 @@
+TASK 1-(Two way Binding)
+
+//app.module.ts
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+//app.component.html
+
+<app-home></app-home>
+<router-outlet></router-outlet>
+
+//home.component.html
+
+<h2 style="color: navy;font-family:'Gill Sans', 'Trebuchet MS', sans-serif;">Student Information</h2>
+<br>
+    <form style="color: navy;">
+        <label for="fname">First name:</label>&nbsp;
+        <input type="text" id="fname" name="fname" placeholder="Enter First Name" [(ngModel)]="fname">
+        <br>
+
+<button type="button" class="btn btn-primary">Submit</button>
+</form>
+<p>Hi! The name entered is {{fname}}</p>
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+TASK-2(Operations on Form Elements)
+
+//home.component.ts
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+fname:string;
+lname:string;
+eng:number;
+math:number;
+scnc:number;
+  constructor() { }
+ sum(){
+       
+    }
+
+  ngOnInit(): void {
+  }
+
+}
+
+
+//home.component.html
+
+<div class="col-md-6 col-md-offset-2">
+    <br>
+<h2 style="color: navy;font-family:'Gill Sans', 'Trebuchet MS', sans-serif;">Student Information</h2>
+<br>
+    <form style="color: navy;">
+        <label for="fname">First name:</label>&nbsp;
+        <input type="text" id="fname" name="fname" placeholder="Enter First Name" [(ngModel)]="fname">
+        <br>
+        <label for="lname">Last name:</label>&nbsp;
+        <input type="text" id="lname" name="lname"  placeholder="Enter Last Name" [(ngModel)]="lname" required>
+        <br>    
+        <br>  
+        <h4 style="font-family:'Gill Sans', 'Trebuchet MS', sans-serif;">Marks</h4>
+        <label for="eng">English:</label>&nbsp;
+        <input type="number" placeholder="Enter English Marks" name="eng" [(ngModel)]="eng"required>
+        <br>
+        <label for="math">Mathematics:</label>&nbsp;
+        <input type="number" #mat name="math"  placeholder="Enter Mathematics Marks" [(ngModel)]="math" required>
+        <br>
+        <label for="scnc">Science:</label>&nbsp;
+        <input type="number" #scn name="scnc" placeholder="Enter Science Marks" [(ngModel)]="scnc">
+        <br>
+        <p style="color: navy;">Total Marks:</p>&nbsp;<input type="number" value="{{eng+math+scnc}}" readonly>
+        <p style="color: navy;">Percentage:</p>&nbsp;<input type="number" value="{{(eng+math+scnc)/3}}" readonly>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary">Submit</button>
+</form>
+<br>
+<br>
+<h4 style="font-family:'Gill Sans', 'Trebuchet MS', sans-serif;">Above is score card of {{fname}}&nbsp;{{lname}} </h4>
+
+</div>
