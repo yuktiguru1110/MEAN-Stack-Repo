@@ -1,0 +1,263 @@
+----------------------------------------------------------------------------------------------------------------------------
+TASK1
+----------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
+student.components.ts
+----------------------------------------------------------------------------------------------------------------------------
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-student',
+  templateUrl: './student.component.html',
+  styleUrls: ['./student.component.css']
+})
+export class StudentComponent implements OnInit {
+
+  Name:String='';
+  mathsmarks:number;
+  englishmarks:number;
+  sciencemarks:number;
+
+People:any[]=[
+  {
+    "name": "Douglas  Pace",
+    "age": 35
+  },
+  {
+    "name": "Mcleod  Mueller",
+    "age": 32
+  },
+  {
+    "name": "Day  Meyers",
+    "age": 21
+  },
+  {
+    "name": "Aguirre  Ellis",
+    "age": 34
+  },
+  {
+    "name": "Cook  Tyson",
+    "age": 32
+  }
+];
+
+
+
+appList: any[] = [ 
+{
+  "ID": "1",
+  "Name":"Image 1",
+  "url": 'assets/Images/1.jpg'
+},
+{
+  "ID": "2",
+  "Name":"Image 2",
+  "url": 'assets/Images/2.png'
+} 
+];
+
+
+func():number {
+    return Math.max(this.mathsmarks,this.englishmarks,this.sciencemarks);  
+    
+  }
+
+
+eventalert()
+  {
+    alert("This is event Binding");
+  }
+
+
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+student.components.html
+----------------------------------------------------------------------------------------------------------------------------
+
+<h4>Student Infomation</h4>
+    <div class="form-group form-inline">
+    <p>Name: &nbsp; <input type="text" class="form-control"  [(ngModel)]="Name" placeholder="Enter your name..."></p>
+    <p>Hi!! The name is {{Name}} </p>
+    <hr>
+    </div>
+
+
+    <div class="form-group form-inline">
+        <p>
+            Marks:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Maths&nbsp;<input type="number" class="form-control" [(ngModel)]="mathsmarks" placeholder="Enter maths marks..."/>
+            &nbsp;&nbsp;&nbsp;
+            English&nbsp;<input type="number" class="form-control" [(ngModel)]="englishmarks" placeholder="Enter english marks..."/>
+            &nbsp;&nbsp;&nbsp;
+            Science&nbsp;<input type="number" class="form-control" [(ngModel)]="sciencemarks" placeholder="Enter science marks"/>
+        </p>
+        <hr>
+    </div>
+
+
+   
+    <div class="form-group form-inline">
+        <p>
+        Result:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Total marks: &nbsp;<input type="number" class="form-control" value="{{mathsmarks+englishmarks+sciencemarks}}">&nbsp;&nbsp;&nbsp;%Marks: &nbsp;<input type="number" class="form-control" value="{{(mathsmarks+englishmarks+sciencemarks)/3}}">&nbsp;&nbsp;&nbsp;
+        Maximum Marks: &nbsp;<input type="number" class="form-control" value="{{func()}}">
+      </p>  
+      <hr>  
+    </div>
+
+
+    <div>
+        <ul *ngFor="let p of People">
+            <li *ngIf="p.age<35">{{p.name}}&nbsp;&nbsp;&nbsp;{{p.age}}</li>
+        </ul>
+        <hr>
+    </div>
+
+
+
+    <div>
+        <table>
+            <tr>
+                <th>PRODUCT ID</th>
+                <th>PROJECT NAME</th>
+                <th>PRODUCT IMAGE</th>
+            </tr>
+            <tr *ngFor="let a of appList">
+                <td>{{a.ID}}</td>
+                <td>{{a.Name}}</td>
+                <td><img [src] = "a.url" width="50" height="50"></td>
+            </tr>
+        </table>
+        <hr>
+    </div>
+
+
+
+    <button type="button" (click)="eventalert()" class="btn btn-primary">Click Me</button>
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+student.components.css
+----------------------------------------------------------------------------------------------------------------------------
+
+
+    table, th, td {
+        border: 1px solid black;
+      }
+
+      th, td {
+        padding: 15px;
+      }
+
+      table {
+        border-spacing: 5px;
+      }
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+user.interface.ts
+----------------------------------------------------------------------------------------------------------------------------
+
+export interface User {
+    name: string; // required with minimum 5 characters
+    address: {
+    street: string; // required
+    postcode: string;
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+TASK2
+----------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
+app.components.ts
+----------------------------------------------------------------------------------------------------------------------------
+
+import { Component, OnInit } from '@angular/core';
+import { User } from './user.interface';
+ 
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+    user: User; 
+    ngOnInit() {      
+    this.user = {
+    name: '',
+    address: {
+    street: '',
+    postcode: '8000'
+    }
+    };
+    }
+    save(model: User, isValid: boolean) 
+    {
+    console.log(model, isValid);
+    }
+  }
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+app.components.html
+----------------------------------------------------------------------------------------------------------------------------
+<form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+  <!-- we will place our fields here -->
+  <!--name-->
+  <div>
+  <label>Name</label>
+  <!--bind name to ngModel, it's required with minimum 5 characters-->
+  <input type="text" name="name" [(ngModel)]="user.name" #name="ngModel" required minlength="5">
+  <!--show error only when field is not valid & it's dirty or form submited-->
+  <small [hidden]="name.valid || (name.pristine && !f.submitted)">Name is required (minimum 5 characters).</small>
+  </div>
+  <!--adrress group-->
+<div ngModelGroup="address">
+<!--street-->
+<div>
+<label>Street</label>
+<input type="text" name="street" [(ngModel)]="user.address.street" #street="ngModel" 
+required>
+<small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+Street is required.
+</small>
+</div>
+<!--postcode-->
+<div>
+<label>Post code</label>
+<input type="text" name="postcode" [(ngModel)]="user.address.postcode">
+</div>
+</div>
+<button type="submit">Submit</button>
+</form>
