@@ -1,0 +1,115 @@
+//Maximum Marks
+
+//app.component.html
+
+<p style="color: navy;">Max Marks:</p>&nbsp;<input type="number" value="{{Maximum()}}" readonly>
+
+//app.component.ts
+
+Maximum():number
+{
+return(Math.max(this.eng,this.math,this.scnc));
+}
+
+//(Display elements with age<n)
+
+//app.component.html
+
+ <ul *ngFor="let p of people">
+      <li *ngIf="p.age<21">
+          {{p.name}}<br>{{p.age}}</li>      
+  </ul>
+  <div style="padding: 20px;">
+
+//app.component.ts
+
+people:any[]=[
+{
+  name:"Abhi",
+  age:32
+  },
+
+  {
+    name:"Vimal",
+    age:28
+    },
+
+    {
+      name:"Vamsi",
+      age:19
+   },
+   {
+    name:"Deepu",
+    age:15
+    },
+
+    {
+    name:"Moni",
+    age:20
+    },
+
+    {
+      name:"Sriya",
+      age:21
+      },
+
+      {
+        name:"Amulya",
+        age:18
+      },
+
+]
+
+//Images with id and name
+
+//app.component.html
+
+<table border="2px">
+      <th>Product ID</th>
+      <th>Product Name</th>
+      <th>Product Image</th>
+      <tr *ngFor="let app of appList">
+       <td>{{app.ID}}</td> 
+       <td>{{app.Name}}</td> 
+       <td><img [src] = 'app.url' class="img-responsive" style="width:200px;height:200px;"></td>        
+    </tr>
+  </table>
+
+//app.component.ts
+
+appList: any[] = [ {
+  "ID": "1",
+  Name:"sofa set",
+  "url": 'assets/Images/sofa.jpg'
+},
+{
+  "ID": "2",
+  Name:"Office Desk",
+  "url": 'assets/Images/WorkStation.jpg'
+},
+
+{
+  "ID": "3",
+  Name:"Chair",
+  "url": 'assets/Images/chair.jpg'
+} ,
+
+{
+  "ID": "4",
+  Name:"Storage Unit",
+  "url": 'assets/Images/Cupboard.jpg'
+},
+]
+
+//Event Binding
+
+//app.component.html
+
+<button class="btn btn-primary" (click)="MyClick()">Click here</button>
+
+//app.component.ts
+
+MyClick()
+{
+  alert("Register to continue shopping");
+}
