@@ -1,0 +1,161 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+app.components.html
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+  <body>
+     <div class="panel panel-primary">
+       <div class="panel-heading">Student Information</div>
+      <div class="panel-body">
+        Name :<input type="text" [(ngModel)]="name"> 
+        <br>
+        Marks: Maths:<input type="number" [(ngModel)]="math"> 
+        English :<input type="number" [(ngModel)]="eng"> 
+        Science: <input type="number" [(ngModel)]="sci">  
+        <br>
+        <button type="button" class="btn btn-primary" (click)="Cal()">Result</button> 
+        Toltal Marks: {{t}}
+        <br>
+        Percentage: {{p}} 
+        <br>
+        Maximum Marks: {{g}}
+      <div class="table-responsive">
+        <table class="table table-striped" border="2">
+            <tr style="text-align:right" style="background-color:#A9A9A9" >
+                <th><b>PRODUCT ID</b></th>
+                <th><b>PROJECT NAME</b></th>
+                <th><b>PRODUCT IMAGE</b></th>
+            </tr>
+            <tr *ngFor="let p of products" style="text-align:center">
+                <td>{{p.ID}}</td>
+                <td>{{p.Name}}</td>
+                <td><img [src] = "p.url" width="80" height="50"></td>
+            </tr>
+        </table>
+        <hr>
+    </div>
+    <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+      <div>
+      <label>Name</label>
+      <!--bind name to ngModel, it's required with minimum 5 characters-->
+      <input type="text" name="name" [(ngModel)]="user.name" #name="ngModel" required minlength="5">
+      <!--show error only when field is not valid & it's dirty or form submited-->
+      <small [hidden]="name.valid || (name.pristine && !f.submitted)">
+      Name is required (minimum 5 characters).
+      </small>
+      </div>
+      <!--adrress group-->
+<div ngModelGroup="address">
+  <!--street-->
+  <div>
+  <label>Street</label>
+  <input type="text" name="street" [(ngModel)]="user.address.street" #street="ngModel" 
+  required>
+  <small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+  Street is required.
+  </small>
+  </div>
+  <!--postcode-->
+  <div>
+  <label>Post code</label>
+  <input type="text" name="postcode" [(ngModel)]="user.address.postcode">
+  </div>
+  </div>
+  <button type="submit">Submit</button>
+  </form>
+  </body>
+</html>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+app.components.ts
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import { Component, OnInit } from '@angular/core';
+import { User } from './user.interface';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+    user: User; 
+    ngOnInit() {      
+    this.user = {
+    name: '',
+    address: {
+    street: '',
+    postcode: '8000'
+    }
+    };
+    }
+    save(model: User, isValid: boolean) 
+    {
+    console.log(model, isValid);
+    } 
+
+  title = 'testproject';
+  name:string;
+  math:number;
+  eng:number;
+  sci:number;
+  t:number;
+  p:number;
+  g:number;
+  f:any;
+
+  Cal(){
+   this.t=this.math+this.eng+this.sci;
+   this.p=(this.t)/3;
+   this.g= Math.max(this.math,this.eng,this.sci);
+   this.f=678;
+  }
+  
+  products : any[]= [{
+    ID:"101",
+    Name: "Silicone Kitchenware Set",
+    url:'assets/img1.jpg'
+  },
+    {
+      ID:"102",
+      Name: "Ceramic Storage Jar",
+      url:'assets/img2.jpg'
+    } ,
+    
+      {
+        ID:"103",
+        Name: "Handmade ceramic pot",
+        url:'assets/img3.jpg'
+      },
+      ];
+  
+
+
+}
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+app.module.ts
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+

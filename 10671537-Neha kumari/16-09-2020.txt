@@ -1,0 +1,67 @@
+Task1 : Two way Data Binding
+Task2 : Generate Total and Percentage using Forms
+---------------------------------------------------
+ app.compoment.html
+-----------------------------------------------------
+<!DOCTYPE html>
+<html>
+  <body>
+    <!-- <div class="panel panel-primary"> -->
+      <!-- <div class="panel-heading">Student Information</div>
+      <div class="panel-body">
+        Name :<input type="text" [(ngModel)]="name"> 
+        <br>
+        Marks: Maths:<input type="number" [(ngModel)]="math"> 
+        English :<input type="number" [(ngModel)]="eng"> 
+        Science: <input type="number" [(ngModel)]="sci">  
+        <br>
+                <p>Total marks:<input type="number" class="form-control" value="{{math+eng+sci}}">
+                   Percentage:<input type="number" class="form-control" value="{{(math+eng+sci)/3}}"></p> 
+      </body>
+     </html> 
+  
+---------------------------------------------------
+ app.compoment.ts
+-----------------------------------------------------
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+    
+  title = 'testproject';
+   name:string;
+   math:number;
+   eng:number;
+   sci:number;
+}
+
+---------------------------------------------------
+ app.module.ts
+-----------------------------------------------------
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
