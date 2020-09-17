@@ -1,0 +1,55 @@
+############### DEMO TASK ###################
+
+TASK-Property Binding , Interpolation ,Two-Way Binding,Event Binding
+
+
+App.Component.ts
+
+
+Logics:-(in Class)
+
+public name="";
+
+//For MAX marks
+   num1:number;
+   num2:number;
+   num3:number;
+   result1:number;
+   percent:number;
+ 
+ percents(){
+   this.result1=this.num1+this.num2+this.num3;
+   this.percent=this.result1/3;
+ }
+
+  //show max marks
+
+    func():number {
+    return Math.max(this.num1,this.num2,this.num3)
+ }
+
+
+
+App.Component.html
+
+//FOR MAX MARKS AND EVENT BINDING
+
+<div style="text-align: center;">
+
+  <h1>Student Information</h1>
+  Name : <input type="text" [(ngModel)] ="name">
+    <p>Hi! you entered :{{name}}</p> 
+
+  Marks Obtained <br><br>
+         Maths :   <input type="number" [(ngModel)]="num1"><br><br>
+        English: <input type="number" [(ngModel)]="num2"><br><br>
+        Science: <input type="number" [(ngModel)]="num3"><br><br>
+    Total Marks: <input type="number" value={{num1*1+num2*1+num3*1}}>
+        <br><br>
+        Maximum: <input type="number" value={{func()}}>
+        <br><br>
+<button class="btn btn-success" (click)="percents()">Percentage</button>
+{{percent}}
+<br>
+<br>
+</div>
