@@ -1,0 +1,159 @@
+app.component.ts:
+
+export class AppComponent {
+  title = 'firstapp';
+//   name:string;
+//   age:number;
+//   eng:number;
+//    math:number;
+//    scnc:number;
+//    appList: any[] = [ {
+//     "ID": "1",
+//     "Prodname":"Pencil",
+//     "url": 'assets/one.jpg'
+//  },
+//  {
+//     "ID": "2",
+//     "Prodname":"Pen",
+//     "url": 'assets/two.jpg'
+//  } ];
+
+//   constructor() { }
+//  sum(){
+       
+//     }
+
+//     max():number{
+//       return Math.max(this.eng,this.math,this.scnc);
+//     }
+
+//     showMeAlert(){
+//       alert("you have submitted the form!!");
+//     }
+    
+
+//   ngOnInit(): void {
+//   }
+
+  
+
+}
+
+
+app.component.html:
+
+   <div>
+      <label for="Age">Age:</label>
+        <input type="number" [(ngModel)]="age">
+        <ul *ngFor="let age of people">
+           <li *ngif= "age < 35">
+           <p>The name is: {{person.name}},Age is:{{person.age}}</p>
+           </li> 
+       </ul>   
+  </div> 
+
+  <table style="width:100%">
+  <thead>
+    <th>Product ID</th>
+    <th>Product Name</th>
+    <th>Product Image</th>
+  </thead>
+   <tbody>
+     <tr *ngFor = 'let lst of appList'>
+      <td>{{lst.ID}}</td>
+      <td>{{lst.Prodname}}</td>
+      <td><img [src] = 'lst.url'></td>   
+     </tr> 
+   </tbody>
+   </table>
+
+ 
+</body>
+</html>
+
+
+
+formvalid.html:
+
+<p>formvalid works!</p>
+<!-- app.component.html -->
+<html>
+    <body>
+<form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+<!-- we will place our fields here -->
+<!--name-->
+<div>
+<label>Name</label>
+<!--bind name to ngModel, it's required with minimum 5 characters-->
+<input type="text" name="name" [(ngModel)]="user.name" #name="ngModel" required minlength="5">
+<!--show error only when field is not valid & it's dirty or form submited-->
+<small [hidden]="name.valid || (name.pristine && !f.submitted)">
+Name is required (minimum 5 characters).
+</small>
+</div>
+ 
+
+<!--adrress group-->
+<div ngModelGroup="address">
+    <!--street-->
+    <div>
+    <label>Street</label>
+    <input type="text" name="street" [(ngModel)]="user.address.street" #street="ngModel" 
+    required>
+    <small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+    Street is required.
+    </small>
+    </div>
+    <!--postcode-->
+    <div>
+    <label>Post code</label>
+    <input type="text" name="postcode" [(ngModel)]="user.address.postcode">
+    </div>
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</body>
+    </html>
+
+
+
+formvalid.ts:
+
+import { Component, OnInit } from '@angular/core';
+import { User } from './user.interface';
+@Component({
+  selector: 'app-formvalid',
+  templateUrl: './formvalid.component.html',
+  styleUrls: ['./formvalid.component.css']
+})
+
+export class  FormvalidComponent implements OnInit {
+  public user: User; // our model
+  ngOnInit() {       // we will initialize our form here
+  this.user = {
+  name: '',
+  address: {
+  street: '',
+  postcode: '8000' // set default value to 8000
+  }
+  };
+  }
+  save(model: User, isValid: boolean) 
+  {
+  // check if model is valid// if valid, call API to save customer
+  console.log(model, isValid);
+  } }
+
+
+
+
+user.interface.ts:
+
+export interface User {
+    name: string; // required with minimum 5 characters
+    address: {
+    street: string; // required
+    postcode: string;
+    }
+    }
+
