@@ -1,0 +1,124 @@
+################################### Form Validation Task #####################
+
+
+
+@@@@@@@@@@@@@@  user.interface.ts
+
+
+export interface User {
+    name: string; // required with minimum 5 characters
+    address: {
+    street: string; // required
+    postcode: string;
+    }
+    }
+
+
+
+@@@@@@@@@@@@@@@@ App.Module.ts
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+    
+    
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+@@@@@@@@@@@@@@@@@@@@@ App.component.ts
+
+import { Component ,OnInit } from '@angular/core';
+import {User} from '../user.interface';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  public user: User; // our model
+  ngOnInit() {       // we will initialize our form here
+  this.user = {
+  name: '',
+  address: {
+  street: '',
+  postcode: '8000' // set default value to 8000
+  }
+  };
+  }
+  save(model: User, isValid: boolean) 
+  {
+  // check if model is valid// if valid, call API to save customer
+  console.log(model, isValid);
+  } }
+
+
+@@@@@@@@@@@@@@@@@@@@@@ App.component.html
+
+<!-- app.component.html -->
+<div style="text-align: center;">
+  <h1 style="font-style: italic;">Form Validation</h1>
+</div>
+<br>
+  <br>
+<form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)"><br><br>
+  <!-- we will place our fields here -->
+  <!--name-->
+  <div style="text-align: center" >
+  <label>Name : </label>
+  <!--bind name to ngModel, it's required with minimum 5 characters-->
+  <input type="text" name="name" [(ngModel)]="user.name" #name="ngModel" required minlength="5">
+  <!--show error only when field is not valid & it's dirty or form submited-->
+  <small [hidden]="name.valid || (name.pristine && !f.submitted)">
+  Name is required (minimum 5 characters).
+  </small>
+  </div>
+  <br>
+  <br>
+  
+  <!--adrress group-->
+  <div ngModelGroup="address" >
+    <!--street-->
+    <div style="text-align: center;">
+    <label>Street :</label>
+    <input type="text" name="street" [(ngModel)]="user.address.street" #street="ngModel" 
+    required>
+    <small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+    Street is required.
+    </small>
+    </div>
+    <br>
+  <br>
+    <!--postcode-->
+    <div style="text-align: center;">
+    <label> Post code : </label>
+    <input type="text" name="postcode" [(ngModel)]="user.address.postcode">
+    </div>
+  </div>
+  <br>
+  <br>
+  <div style="text-align: center;">
+    <button class="btn btn-success" type="submit">Submit</button>
+  </div>
+    
+   
+</form>   
+

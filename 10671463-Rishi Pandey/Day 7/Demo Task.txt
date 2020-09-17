@@ -1,0 +1,140 @@
+############ DEMO TASK###################
+
+
+Task 1 - show maximum marks
+Task 2 - USE ngIf and ngFor together
+Task 3 - Property Binding For Image
+Task 4 - Event Binding
+
+
+App.Component.ts
+
+
+Logics:-(in Class)
+
+public name="";
+
+//For MAX marks
+   num1:number;
+   num2:number;
+   num3:number;
+   result1:number;
+   percent:number;
+ 
+// Use of ngIf and ngFor together
+
+   people:any[]=[
+     {
+       "name":"rishi",
+       "age":"23"
+     },
+     {
+       "name":"Anjali",
+       "age":"22"
+     },
+     {
+       "name":"Akash",
+       "age":"29"
+     }
+   ]
+
+
+   //property bindind for image
+
+   picture:any[]=[
+     {
+       "ProductId":"P001",
+       "ProductName":"Laptop",
+       "Url":"../assets/images/laptop.jpg"
+     },
+     {
+      "ProductId":"P002",
+      "ProductName":"Mobile",
+      "Url":"../assets/images/mobile.jpg"
+    },
+    {
+      "ProductId":"P003",
+      "ProductName":"Refridgerator",
+      "Url":"../assets/images/fridge.jpg"
+    }
+   ]
+  
+
+ percents(){
+   this.result1=this.num1+this.num2+this.num3;
+   this.percent=this.result1/3;
+ }
+
+  //show max marks
+
+    func():number {
+    return Math.max(this.num1,this.num2,this.num3)
+ }
+
+
+
+
+App.Component.html
+
+//FOR MAX MARKS AND EVENT BINDING
+
+<div style="text-align: center;">
+
+  <h1>Student Information</h1>
+  Name : <input type="text" [(ngModel)] ="name">
+    <p>Hi! you entered :{{name}}</p> 
+
+  Marks Obtained <br><br>
+         Maths :   <input type="number" [(ngModel)]="num1"><br><br>
+        English: <input type="number" [(ngModel)]="num2"><br><br>
+        Science: <input type="number" [(ngModel)]="num3"><br><br>
+    Total Marks: <input type="number" value={{num1*1+num2*1+num3*1}}>
+        <br><br>
+        Maximum: <input type="number" value={{func()}}>
+        <br><br>
+<button class="btn btn-success" (click)="percents()">Percentage</button>
+{{percent}}
+<br>
+<br>
+</div>
+
+
+
+//For property binding of image
+<div>
+
+  <table border="2">
+
+    <thead>
+     <th>ProductId</th>
+     <th>Productname</th>
+     <th>Image</th>
+    </thead>
+    <tbody>
+     <tr *ngFor="let p of picture">
+        <td>{{p.ProductId}}</td>
+        <td>{{p.ProductName}}</td>
+        <td><img [src]='p.Url' width="50" height="50"></td>
+     </tr>
+    </tbody>
+  </table>
+  <hr>
+</div>
+
+
+//ngIf and ngFor Together
+<div>
+ <ul *ngFor="let r of people">
+    <li *ngIf="r.age<28">{{r.name}}{{r.age}}</li>
+  </ul>
+  <hr>
+</div>
+
+
+
+
+
+
+
+
+
