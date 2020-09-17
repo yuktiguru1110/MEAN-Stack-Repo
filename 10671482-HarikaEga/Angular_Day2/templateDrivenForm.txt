@@ -1,0 +1,108 @@
+Template driven form
+1.user.interface.ts
+export interface User {
+    fname: string;
+    address: {
+    street: string; 
+    postcode: string;
+    }
+    }
+2.app.module.ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import{FormsModule} from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { TaskComponent } from './task/task.component';
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    TaskComponent
+   
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule
+   
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+3.app.component.ts
+import { Component,OnInit } from '@angular/core';
+import {User} from './user.interface';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
+export class AppComponent implements OnInit {
+  public user: User;
+  ngOnInit() {       
+  this.user = {
+  fname: '',
+  address: {
+  street: '',
+  postcode: '8000' 
+  }
+  };
+  }
+  save(model: User, isValid: boolean) 
+  {
+  console.log(model, isValid);
+  } }
+
+4.app.component.html
+<div class="container">
+<form  #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)" >
+   
+   <div>
+    <label  for="fname"><b>First Name :</b></label>
+   
+    
+    <input type="text" name="fname" id="fname" class="form-control" [(ngModel)]="user.fname" #fname="ngModel" required minlength="5" >
+    
+    <small [hidden]="fname.valid || (fname.pristine && !f.submitted)" class="text-danger">
+    Name is required (minimum 5 characters).
+    </small>
+    </div>
+    <div ngModelGroup="address">
+       
+        
+        <label  for="street"><b>Street:</b></label>
+       
+        <input type="text" name="street" id="street" class="form-control" [(ngModel)]="user.address.street" #street="ngModel" required >
+  
+        <small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+        Street is required.
+        </small>
+        
+      <br/>
+        <label  for="postcode"><b>Post code:</b></label>
+       
+        <input type="text" name="postcode" id="postcode" class="form-control" [(ngModel)]="user.address.postcode" >
+    
+       
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-info">Submit</button>
+        </form>
+       </div>
+5.app.component.css
+
+.container{
+    left:350px;
+    font-size: 14px;
+    padding: 50px 45px 50px 45px;
+    background-color: #FFFFFF;
+    width:40%;
+    border-style: solid;
+    border-color: #e6dede
+
+}

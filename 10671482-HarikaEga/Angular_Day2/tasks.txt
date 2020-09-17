@@ -1,0 +1,127 @@
+1.task.component.ts
+
+import { Component ,OnInit} from '@angular/core';
+
+@Component({
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.css']
+})
+export class TaskComponent implements OnInit {
+
+  studentName : string;
+  maths : number=0;
+  english : number=0;
+  science : number=0;
+  maximum: number =0;
+
+  constructor() {
+    this.studentName="Ram" ;
+   }
+
+  max(){
+    return Math.max(this.maths ,this.english ,this.science);  
+  }
+
+  people: any[]=[
+    {name : "john",age: 35 },
+    {name : "Ram",age: 50 },
+    {name : "Max",age: 32 },
+    {name : "Kavan",age: 45 },
+    {name : "Kavin",age: 30 },
+    {name : "Robert",age: 40 }  
+  ];
+
+  product : any[]=[
+    {id : 1 , pname:"DairyMilk" , url : "/assets/diarymilk.jpg" },
+    {id : 2 , pname:"Toblerone" , url : "/assets/Toblerone.jpg" },
+    {id : 3 , pname:"Snickers" , url : "/assets/snickers.jpg" },
+    {id : 4 , pname:"Ferrero" , url : "/assets/ferrero.jpeg" } 
+  ];
+
+  showAlert(){
+    alert("This is alert");
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+
+2.task.component.html
+.........................................................................
+Task1 : Show Max Marks
+.........................................................................
+<form class="alert alert-info">
+    <h3>Marks</h3>
+    <label><b>Name :</b></label><input type="text" name="studentName" [(ngModel)]="studentName"/><br/>
+<label><b>Maths</b></label> <input type="number" class="form-control"  name="maths" [(ngModel)]="maths"  /><br>
+<label><b>English</b></label> <input type="number" class="form-control"  name="english" [(ngModel)]="english"  /><br>
+<label><b>Science</b></label> <input type="number" class="form-control" name="science" [(ngModel)]="science"  />
+<br>
+<p><b>Total Marks :</b> <input type="text"  value="{{maths + english + science}}"/></p>
+<p><b>% Marks :</b><input type="text"  value="{{(maths + english + science)/3}}"/> </p>
+<p><b>Maximum : </b> <input type="text" value="{{max()}}"/></p>
+<p><b>hi! {{studentName}} Your percentile is {{(maths + english + science)/3}}</b></p>
+</form>
+<hr>
+.........................................................................................
+Task2: show list of people whose age <35
+.........................................................................................
+<ul *ngFor="let p of people">
+    <li *ngIf="p.age <35" >
+        {{p.name}}  {{p.age}}
+    </li>
+</ul>
+<hr>
+.............................................................................................
+Task3: show list of Products with images and bootstrap it
+..............................................................................................
+<table id="tb">
+    <tr>
+        <th>ProductId</th>
+        <th>ProductName</th>
+        <th>Product Image</th>
+      </tr>
+
+        <tr *ngFor="let pro of product">
+        <td>{{pro.id}} </td> <td>  {{pro.pname}}  </td>
+        <td><img [src]='pro.url' height=100 width=100 ></td>
+        </tr>
+    
+</table>
+<br/>
+...................................................................................................
+Task4:Event binding example
+....................................................................................................
+<button class="btn btn-primary" (click)="showAlert()">ClickMe</button>
+
+
+3.task.component.css
+form{
+    width :50%;
+    left : 350px;
+}
+      #tb {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 75%;
+        left : 200px;
+      }
+      
+      #tb td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #tb tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #tb tr:hover {background-color: #ddd;}
+      
+      #tb th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #717471;
+        color: white;
+      }
