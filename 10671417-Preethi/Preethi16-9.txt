@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <title>Task 1</title>
+</head>
+<body>
+  <h1> Student Information</h1> -->
+    <!-- <h1> Student Information</h1>
+    
+    <label for="Name">Name:</label> 
+    Name: <input [value]="Name" (input)="Name=$event.target.value">
+    <p>Hi! You have entered the name:{{Name}}</p>  -->
+
+    <!-- <div>
+      <label for="Name">Name:</label>
+      <input type="text" [(ngModel)]="name">
+      <p>Hi! You have entered the name:{{name}}</p>
+    </div> 
+    <div class="col-md-6 col-md-offset-2">
+      <br> -->
+  <!-- <h2 style="color: navy;font-family:'Gill Sans', 'Trebuchet MS', sans-serif;">Student Information</h2> -->
+  <!-- <br>
+      <form style="color: navy;"> 
+        
+          <h4 style="font-family:'Gill Sans', 'Trebuchet MS', sans-serif;">Marks</h4>
+          <label for="eng">English:</label>&nbsp;
+          <input type="number" placeholder="Enter English Marks" name="eng" [(ngModel)]="eng"required>
+          <br>
+          <label for="math">Mathematics:</label>&nbsp;
+          <input type="number" #mat name="math"  placeholder="Enter Mathematics Marks" [(ngModel)]="math" required>
+          <br>
+          <label for="scnc">Science:</label>&nbsp;
+          <input type="number" #scn name="scnc" placeholder="Enter Science Marks" [(ngModel)]="scnc">
+          <br>
+          <p style="color: navy;">Total Marks:</p>&nbsp;<input type="number" value="{{eng+math+scnc}}" readonly>
+          <p style="color: navy;">Percentage:</p>&nbsp;<input type="number" value="{{(eng+math+scnc)/3}}" readonly>
+          <p style="color: navy;">Max mark:</p>&nbsp;<input type="number" value="{{max()}}" readonly>
+          <br>
+          <br>
+          <button type="button" class="btn btn-primary" (click)="showMeAlert()">Submit</button>
+  </form>
+  <br>
+  <br>
+
+  </div>
+</body>
+</html>
+
+
+app.component.ts:
+export class AppComponent {
+  title = 'firstapp';
+  name:string;
+  age:number;
+  eng:number;
+   math:number;
+   scnc:number;
+}
