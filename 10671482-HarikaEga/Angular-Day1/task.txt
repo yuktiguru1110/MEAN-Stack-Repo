@@ -1,0 +1,90 @@
+Task1
+Showing Students Name(Two Way Data Binding)
+Task2
+Showing total marks and percentage.
+........................................................................................................................................................................................
+1.app.module.ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import{FormsModule} from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { TaskComponent } from './task/task.component';
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    TaskComponent
+   
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule
+   
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+....................................................................................................................................................................................
+2.app.component.html
+
+<app-task></app-task>
+
+....................................................................................................................................................................................
+3.task.component.ts
+
+import { Component ,OnInit} from '@angular/core';
+
+@Component({
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.css']
+})
+export class TaskComponent implements OnInit {
+
+  studentName : string;
+  maths : number=0;
+  english : number=0;
+  science : number=0;
+  
+
+  constructor() {
+    this.studentName="Ram" ;
+   }
+
+  ngOnInit(): void {
+  }
+
+}
+......................................................................................................................................................................................
+4.task.component.html
+
+-----task1
+<form>
+    <h2>Student Information</h2>
+    <label><b>Name :</b></label><input type="text" name="studentName" [(ngModel)]="studentName"/><br/> 
+   <p> hi! {{studentName}} </p>
+</form>
+<hr>
+-----task2
+<form class="alert alert-info">
+ 
+    <h3>Marks</h3>
+    <label><b>Name :</b></label><input type="text" name="studentName" [(ngModel)]="studentName"/><br/>
+<label><b>Maths</b></label> <input type="number" class="form-control"  name="maths" [(ngModel)]="maths"  /><br>
+<label><b>English</b></label> <input type="number" class="form-control"  name="english" [(ngModel)]="english"  /><br>
+<label><b>Science</b></label> <input type="number" class="form-control" name="science" [(ngModel)]="science"  />
+<br>
+<p><b>Total Marks :</b> <input type="text"  value="{{maths + english + science}}"/></p>
+<p><b>% Marks :</b><input type="text"  value="{{(maths + english + science)/3}}"/> </p>
+<p><b>hi! {{studentName}} Your percentile is {{(maths + english + science)/3}}</b></p>
+</form>
+.........................................................................................................................................................................................................
+5.task.component.css
+form{
+    width :50%;
+    left : 350px;
+}
