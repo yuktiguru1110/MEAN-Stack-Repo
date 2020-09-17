@@ -1,0 +1,35 @@
+App.Component.html
+---------------------------
+<h1 align = "center">Student Information</h1>
+<br>
+
+<form>
+  <label>Name</label>
+  <input type="text" name= "name1" [(ngModel)]="name1" />
+  <p>Hi! {{name1}}</p>
+</form>
+
+<br>
+<p align="center">Maths <input type="number"  [(ngModel)]="fnum"> &nbsp;
+  English <input type="number" [(ngModel)]="snum"> &nbsp;
+  Science <input type="number" [(ngModel)]="tnum"></p>
+<p align="center">Total <input placeholder="0" value="{{fnum+snum+tnum}}"> &nbsp; Percentage <input placeholder="0" value="{{((fnum+snum+tnum)/300)*100}}">&nbsp; TotalMarks <input placeholder="0" value="{{maxmarks()}}"></p>
+
+App.Component.ts
+-----------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  fnum:number;
+  snum:number;
+  tnum:number;
+ 
+  maxmarks(){
+    return Math.max(this.fnum,this.snum,this.tnum)
+  }
+}
