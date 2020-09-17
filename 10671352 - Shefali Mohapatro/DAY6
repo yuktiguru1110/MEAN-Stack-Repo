@@ -1,0 +1,80 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+student.components.html
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<h4>Student Infomation</h4>
+    <div class="form-group form-inline">
+    <p>Name: &nbsp; <input type="text" class="form-control"  placeholder="Enter your name..."></p>
+    </div>
+    <div class="form-group form-inline">
+        <p>
+            Marks:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Maths&nbsp;<input type="number" class="form-control" [(ngModel)]="mathsmarks" placeholder="Enter maths marks..."/>
+            &nbsp;&nbsp;&nbsp;
+            English&nbsp;<input type="number" class="form-control" [(ngModel)]="englishmarks" placeholder="Enter english marks..."/>
+            &nbsp;&nbsp;&nbsp;
+            Science&nbsp;<input type="number" class="form-control" [(ngModel)]="sciencemarks" placeholder="Enter science marks"/>
+        </p>
+    </div>
+    <div>
+        <p>Result:</p>
+    </div>
+    <div class="form-group form-inline">
+        <p>Total marks: &nbsp;<input type="number" class="form-control" value="{{mathsmarks+englishmarks+sciencemarks}}">&nbsp;&nbsp;&nbsp;%Marks: &nbsp;<input type="number" class="form-control" value="{{(mathsmarks+englishmarks+sciencemarks)/3}}"></p>
+    </div>
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+student.components.ts
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-student',
+  templateUrl: './student.component.html',
+  styleUrls: ['./student.component.css']
+})
+export class StudentComponent implements OnInit {
+
+  mathsmarks:number;
+  englishmarks:number;
+  sciencemarks:number;
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+app.module.ts
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { StudentComponent } from './student/student.component';
+
+import {FormsModule} from '@angular/forms'
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    StudentComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+
+
