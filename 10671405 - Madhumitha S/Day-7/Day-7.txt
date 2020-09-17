@@ -1,0 +1,121 @@
+App.Component.ts
+--------------------------
+import { Component } from '@angular/core';
+import {User} from './Interface/user';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  fnum:number;
+  snum:number;
+  tnum:number;
+  person:any[] = [];
+  title = 'mernang';
+  product: any[] = [ {
+    "ID": "1",
+    "Name": "Laptop",
+    "url": '../../assets/One.jpg'
+ },
+ {
+    "ID": "2",
+    "Name":"Mobile",
+    "url": '../../assets/Two.jpg'
+ } ];
+
+ user:User;
+
+  constructor() {}
+
+  ngOnInit() {
+    this.person = [
+      { name: 'Madhu', age: 22 },
+      { name: 'Shefali', age: 21 },
+      { name: 'Preethi', age: 42 },
+      { name: 'Yukti', age: 24 },
+    ]
+    this.user={
+      name:'',
+      address:{
+        street:'',
+        postcode:'8000'
+      }
+    }
+  }
+  save(model:User,isValid:boolean)
+  {
+    console.log(model,isValid)
+  }
+  maxmarks(){
+    return Math.max(this.fnum,this.snum,this.tnum)
+  }
+
+  eventalert()
+  {
+    alert("This is event Binding");
+  }
+}
+
+App.Component.html
+-------------------------
+
+  <ul *ngFor="let i of person">
+    <li *ngIf="i.age < 35">Name: {{i.name}} &nbsp; Age: {{i.age}}</li>
+  </ul>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = 'let lst of product'>
+        <td>{{lst.ID}}</td>
+        <td>{{lst.Name}}</td>
+        <td><img class="img-thumbnail" width="100" height="100" [src] = 'lst.url'></td>
+      </tr>
+      </tbody>
+      </table>
+
+      <button type="button" (click)="eventalert()" class="btn btn-primary">Click Me</button>
+
+      <div>
+      <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)"> 
+        <!-- we will place our fields here -->
+        <!--name-->
+        <div class="form-group">
+        <label>Name </label>
+        <!--bind name to ngModel, it's required with minimum 5 characters-->
+        <input type="text" name="name" [(ngModel)]="user.name" #name="ngModel" required minlength="5">
+        <!--show error only when field is not valid & it's dirty or form submited-->
+        <small [hidden]="name.valid || (name.pristine && !f.submitted)">
+        Name is required (minimum 5 characters).
+        </small>
+        </div>
+        
+        <!--adrress group-->
+        
+        <div ngModelGroup="address">
+        <!--street-->
+        <div class="form-group">
+        <label>Street </label>
+        <input type="text" name="street" [(ngModel)]="user.address.street" #street="ngModel"
+        required>
+        <small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+        Street is required.
+        </small>
+        </div>
+        <!--postcode-->
+        <div>
+        <label>Post code </label>
+        <input type="text" name="postcode" [(ngModel)]="user.address.postcode">
+        </div>
+        <button type="submit">Submit</button>
+        </form>
+        </div>
+<router-outlet></router-outlet>
