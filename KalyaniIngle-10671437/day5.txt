@@ -1,0 +1,108 @@
+use person
+db
+//Task1
+db.employee.find({})
+
+db.employee.updateMany(
+    { },
+    { $set: { join_date: new Date() } }
+)
+db.employee.updateMany({ },    
+  {$unset: { "join_date": "" }}
+)
+db.employee.find({name:{$not:/i/}})
+db.employee.find({name:/i/})
+db.employee.find({}).count()
+//cursor queries
+var myemp= db.employee.find({"id":{$gt:"1001"}});
+while(myemp.hasNext())
+{
+    print(tojson(myemp.next()));
+}
+...............................................//Task2
+db.orders.insert([
+   { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+   { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+   { "_id" : 3  }
+])
+
+db.inventory.insert([
+   { "_id" : 1, "sku" : "almonds", description: "product 1", "instock" : 120 },
+   { "_id" : 2, "sku" : "almonds", description: "product 1", "instock" : 80 },
+   { "_id" : 3, "sku" : "cashews", description: "product 3", "instock" : 60 },
+   { "_id" : 4, "sku" : "pecans", description: "product 4", "instock" : 70 },
+   { "_id" : 5, "sku": null, description: "Incomplete" },
+   { "_id" : 6 }
+])
+db.inventory.remove({})
+
+db.orders.aggregate([
+   {
+        $lookup:
+        {
+            from:  "inventory",
+            localField:"item",
+            foreignField:"sku",
+            as:"inventory_docs"
+            
+        }
+   }
+])
+
+...............................................//Task3
+//1) Using the available collection implement the group by in mongodb 
+db.inventory.aggregate([
+     {
+         $group:{_id:"$sku",count:{$sum:1}}
+     }
+])
+//2) Using the available collection implement the order by in mongodb
+db.inventory.find({}).sort({"instock":1})
+ //3)Total no. of documents in the collection
+ db.inventory.count()
+ ..................//Task4
+use kalyani
+db
+db.restaurants.insert(
+{
+    "address":{
+        "building":"1007",
+        "coord":[-96.856077,40.848447],
+        "street":"Morris Park Ave",
+        "zipcode":"10462"
+    },
+    "borough":"Bronx",
+    "cuisine":"Bakery",
+    "grades":[
+    {"date":{"$date":1393804800000},"grade":"A","score":2},
+    {"date":{"$date":1378857600000},"grade":"A","score":6},
+    {"date":{"$date":1358985600000},"grade":"A","score":10},
+    {"date":{"$date":1322006400000},"grade":"A","score":9},
+    {"date":{"$date":1299715200000},"grade":"B","score":14}
+    ],
+    "name":"Madris monrk Bake Shop",
+    "restaurant_id":"300754434"
+        
+}
+)
+db.restaurants.find({})
+ 
+//1)Write a MongoDB query to arrange the name of the restaurants in descending along with all the columns
+ =>db.restaurants.find({}).sort({"name":1})
+//2)Write a MongoDB query to arranged the name of the cuisine in ascending
+//order and for that same cuisine borough should be in descending order.
+ =>db.restaurants.find({}).sort({"name":1,"borough":-1})
+//3)Write a MongoDB query to know whether all the addresses contains the street or not.
+ =>db.restaurants.find({"address.street":{"$exists":true}})
+//4)Write a MongoDB query which will select all documents in the restaurants
+//collection where the coord field value is Double.
+ =>db.restaurants.find({"address.coord":{$type:1}})
+//5)Write a MongoDB query which will select the restaurant Id, name and
+//grades for those restaurants which returns 0 as a remainder after dividing the score by 7.
+ =>db.restaurants.find({"grades.score":{$mod:[7,0]}},{"restaurant_id":1,"name":1,"grades":1})
+//6)Write a MongoDB query to find the restaurant name, borough, longitude
+//and attitude and cuisine for those restaurants which contains "mon"; as three letters somewhere in its name
+ =>db.restaurants.find({"name":/mon/},{"name":1,"borough":1,"address.coord":1,"cuisine":1})
+//7)Write a MongoDB query to find the restaurant name, borough, longitude and
+//latitude and cuisine for those restaurants which contain "Mad" as first three letters of its name.
+ =>db.restaurants.find({"name":/^Mad/},{"name":1,"borough":1,"address.coord":1,"cuisine":1})

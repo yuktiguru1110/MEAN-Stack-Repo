@@ -1,0 +1,46 @@
+form1.html
+
+<!DOCTYPE html>
+<html>
+		<head>
+		   <script language="javascript" type="text/javascript" src="js/valid1.js"></Script>
+		   <title>Hello</title>
+		</head>
+		<body>
+			<h1>Java Script</h1>
+			<form name="frm1" method="post" onsubmit="return jfun1()" action="test.html">
+			  Name:<input type="text" name="t1">
+			  Designation:<input type="text" name="t2">
+			  <input type="submit">
+			</form>
+			
+			
+		</body>
+</html>
+
+valid1.js
+
+function jfun1()
+{
+
+	
+	 var name=frm1.t1.value;
+      var designation=frm1.t2.value;
+	  if(name==="")
+	  {
+	  	  alert("Enter your name");
+		  frm1.t1.focus();
+		  return false;
+		  
+	  }
+	  if(designation==="")
+	  {
+	      alert("Enter your designation");
+		  frm1.t2.focus();
+		  return false;
+	  }
+	  else{
+	  	  return true;
+	  }
+
+}

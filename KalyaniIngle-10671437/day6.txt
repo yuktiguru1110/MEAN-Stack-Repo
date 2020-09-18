@@ -1,0 +1,61 @@
+..........................................Task1
+<h1>Student Information</h1>
+<form>
+  <label for="name">Name:</label>
+  <input type="text" name="name" [(ngModel)]="n">
+</form>
+<p>Hi! you have entered name:{{n}}</p>
+..........................................Task2(Student Information with bootstrap)
+..........app.component.html
+<div class="container" style="border:1px solid lightblue;border-radius:10px;padding:20px;">
+  <h1 class="container">Student Information</h1>
+  
+  <form class="form" autoComplete="off" (ngSubmit)="getResult()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" placeholder="Enter username" name="name" [(ngModel)]="n" required>
+    </div>
+    <div class="form-inline">
+
+    <label class="mr-sm-2">Marks(each out of 50):</label>
+    <label class="mr-sm-2" for="m">Maths:</label>
+    <input class="form-control mb-2 mr-sm-2"  name="m" [(ngModel)]=m1 >
+    <label class="mr-sm-2" for="e">English:</label>
+    <input class="form-control mb-2 mr-sm-2"  name="e" [(ngModel)]=e1 >
+    <label class="mr-sm-2" for="s">Science:</label>
+    <input class="form-control mb-2 mr-sm-2"  name="s" [(ngModel)]=s1 >
+   
+    </div>
+    <label class="mr-sm-2">Results:</label><br>
+    <div class="form-inline">
+
+    
+    <label class="mr-sm-2" for="ma">Total Marks:</label>
+    <input class="form-control mb-2 mr-sm-2"  name="ma" placeholder="Total Marks"[(ngModel)]=tm value={{tm}} >
+    <label class="mr-sm-2" for="pm">Marks in %:</label>
+    <input class="form-control mb-2 mr-sm-2"  name="pm" placeholder="Marks" [(ngModel)]=pm value={{pm}}>
+    
+   
+    </div>
+    <div class="form-group">
+       <button class="btn btn-primary" type="submit" >Get Result</button>
+       </div>
+  </form>
+</div>
+...............app.component.ts
+export class AppComponent {
+  title = 'TestPro1';
+ m1:number;
+ e1:number;
+ s1:number;
+ tm:number;
+ pm:number;
+ constructor()
+ {
+  }
+  getResult()
+  {
+    this.tm=Number(this.m1)+Number(this.e1)+Number(this.s1);
+    this.pm=Number(((this.tm)/150)*100);
+  }
+}
