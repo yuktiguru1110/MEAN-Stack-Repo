@@ -1,0 +1,145 @@
+// Student Details
+
+<form style="color: navy;">
+      <label for="fname" >First name:</label> {{ fname }}<br>
+      <input type="text" id="fname" name="fname" placeholder="First Name" [(ngModel)]="fname">
+      <br>
+      <label for="mname">Middle name:</label> {{ mname }}<br>
+      <input type="text" id="mname" name="mname" placeholder="Middle Name" [(ngModel)]="mname">
+      <br>
+      <label for="lname">Last name:</label> {{ lname }}<br>
+      <input type="text" id="lname" name="lname"  placeholder="Last Name" [(ngModel)]="lname" required>
+      <br>    
+      <br>  
+      <label for="maths">Maths:</label>&nbsp;&nbsp;&nbsp;
+      <input type="number" name="maths"  placeholder="Enter Maths Marks" [(ngModel)]="maths" required>
+      <br>
+      <label for="science">Science:</label>&nbsp;
+      <input type="number" name="science" placeholder="Enter Science Marks" [(ngModel)]="science" required>
+      <br>
+      <label for="english">English:</label>&nbsp;&nbsp;
+      <input type="number" name="english" placeholder="Enter English Marks"  [(ngModel)]="english" required>
+      <br><br>
+      <p style="color: navy;">Total Marks:</p>&nbsp;<input type="number" value="{{ maths+ science+ english}}" readonly>
+      <p style="color: navy;">Percentage:</p>&nbsp;<input type="number" value="{{(maths+ science+ english)/3}}" readonly>
+      <br>
+      <br>
+    </form>
+  
+  // changes in app.component.ts
+  export class AppComponent {
+  title = 'angulartest1';
+  maths:number;
+  science:number;
+  english:number;
+  fname:string;
+  mname:string;
+  lname:string;
+}
+-------------------------------------------------------------------------------------------------------------------------------------
+// Calling function 
+<form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+      <div>
+      <label>Name</label>
+      <input type="text" name="name" [(ngModel)]="user.name" #name="ngModel" required minlength="5
+      ">
+      <small [hidden]="name.valid || (name.pristine && !f.submitted)">
+      Name is required (minimum 5 characters).
+      </small>
+      </div>
+      
+      <div ngModelGroup="address">
+      
+      <div>
+      <label>Street</label>
+      <input type="text" name="street" [(ngModel)]="user.address.street" #street="ngModel"
+      required>
+      <small [hidden]="street.valid || (street.pristine && !f.submitted)" class="text-danger">
+      Street is required.
+      </small>
+      </div>
+      
+      <div>
+      <label>Post code</label>
+      <input type="text" name="postcode" [(ngModel)]="user.address.postcode">
+      </div>
+      </div>
+      <button type="submit">Submit</button>
+      <div>{{ f.value | json }}</div>
+      </form>
+      
+ // App component.ts
+ 
+ export class AppComponent implements OnInit { 
+  public user: User; // our model 
+  ngOnInit() {       // we will initialize our form here 
+  this.user = { 
+  name: '', 
+  address: { 
+  street: '', 
+  postcode: '8000' // set default value to 8000 
+  } 
+  }; 
+  } 
+  save(model: User, isValid: boolean)  
+  {  // check if model is valid// if valid, call API to save customer 
+  console.log(model, isValid); 
+  } }
+----------------------------------------------------------------------------------------------------------------------------
+// validation in Form
+<div class="container">
+        <form [formGroup]="angForm" novalidate>
+              <div class="form-group">
+                  <label>Name:</label>
+                  <input class="form-control" formControlName="name" type="text">
+              </div>
+              <div *ngIf="angForm.controls['name'].invalid && (angForm.controls['name'].dirty || angForm.controls['name'].touched)" 
+              class="alert alert-danger">
+                  <div *ngIf="angForm.controls['name'].errors.required">
+                    Name is required.
+                  </div>
+          
+      </div>
+              <div class="form-group">
+                  <label>Address:</label>
+                  <input class="form-control" formControlName="address" type="text">
+              </div>
+              <div *ngIf="angForm.controls['address'].invalid && (angForm.controls['address'].dirty || angForm.controls['address'].touched)" 
+                class="alert alert-danger">
+                  <div *ngIf="angForm.controls['email'].errors.required">
+                    email is required.
+                  </div>
+              </div>
+              <button type="submit"
+                  [disabled]="angForm.pristine || angForm.invalid" class="btn btn-success">
+                  Save
+              </button>
+        </form>
+        <br />
+        <p>Form value: {{ angForm.value | json }}</p>
+        <p>Form status: {{ angForm.status | json }}</p>
+      </div>
+      
+  // changes in app.component.ts
+  import { Component } from '@angular/core';
+import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = "Angular Form Validation";
+   angForm: FormGroup;
+   constructor(private fb: FormBuilder) {
+    this.createForm();
+  }
+   createForm() {
+    this.angForm = this.fb.group({
+       name: ['', Validators.required ],
+       address: ['', Validators.required ]
+    });
+  }
+}
+      
