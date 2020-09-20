@@ -1,0 +1,58 @@
+// for loop retrive product and images
+app.component.html
+<div>
+
+    <table>
+  
+      <thead>
+       <th>ProductId</th>
+       <th>Productname</th>
+       <th>Image</th>
+      </thead>
+      <tbody>
+       <tr *ngFor="let p of picture">
+          <td>{{p.ProductId}}</td>
+          <td>{{p.ProductName}}</td>
+          <td><img [src]='p.Url' width="160" height="150"></td>
+       </tr>
+      </tbody>
+    </table>
+    <hr>
+  </div>
+
+app.component.ts
+import { Component } from '@angular/core';
+import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = "Angular List";
+picture:any[]=[
+  {
+    "ProductId":"P001",
+    "ProductName":"MI",
+    "Url":"../assets/1.jpg"
+  },
+  {
+   "ProductId":"P002",
+   "ProductName":"samsung",
+   "Url":"../assets/2.jpg"
+ },
+ {
+   "ProductId":"P003",
+   "ProductName":"iphone",
+   "Url":"../assets/3.jpg"
+ }
+]
+}
+-------------------------------------------------------------------------------------
+//using ngFor and ngIf both at same time
+// gives product id of product with name samsung
+
+<tr *ngFor="let p of picture">
+      <td *ngIf="p.ProductName=='samsung'">{{p.ProductId}}</td>
+</tr>
