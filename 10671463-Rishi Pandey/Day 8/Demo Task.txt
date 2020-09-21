@@ -1,0 +1,124 @@
+  ################ Demo Task #######################
+
+
+
+1. Task Service
+
+
+---> create new project 
+    ng new DemoProject
+
+----> serve the application
+    ng serve --open
+
+----> create service
+
+     ng g service crypto
+
+
+----> In crypto.service.ts
+
+
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class CryptoService {
+
+  coins= [
+    {id: 1, name: 'BTC'},
+    {id: 2, name: 'XRP'}
+  ];
+  
+
+  constructor() { }
+
+  getMyItems()
+  {
+    return this.coins;
+  }
+  remove(coins:any)
+  {
+    const index:number=this.coins.indexOf(coins);
+    
+    this.coins.splice(index,1);
+    console.log(alert)
+  }
+
+}
+
+
+
+------>In app.module.ts
+
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CryptoService } from './crypto.service';
+
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+  
+  
+   
+  ],
+  providers: [CryptoService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+----> In app.component.ts
+
+
+
+import { Component } from '@angular/core';
+import { CryptoService } from './crypto.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  coins = [];
+  
+
+  
+  constructor(private cryptoservice: CryptoService)
+  {
+    this.coins = cryptoservice.getMyItems();
+    
+  }
+ 
+ 
+}
+
+
+
+-----> app.component.html
+
+
+<div class="d-flex justify-content-center" style="margin-top: 30px;">
+  <table class="table table-hover text-center center" style="background-color: aqua;" border="2">
+    <tr class="tr-dark align-middle">
+      <th>ID</th>
+      <th>Name</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let coin of coins">
+      <td class="align-middle">{{coin.id}}</td>
+      <td class="align-middle">{{coin.name}}</td>
+      <td><button onclick="remove(coin)" class="btn btn-danger">X</button></td>
+    </tr> 
+  </table>
+  </div>
