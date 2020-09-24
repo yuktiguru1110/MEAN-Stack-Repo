@@ -1,0 +1,127 @@
+############## DEMO Task######################
+
+
+
+Task 1 Parent To Child Interaction
+
+
+------->app-child.component.ts
+
+import { Component,Input,OnInit } from '@angular/core';
+@Component({
+selector: 'appchild',
+template: `<h2>Hi {{greetMessage}}</h2>`
+})
+export class AppChildComponent implements OnInit{
+@Input() greetMessage: string ;
+constructor(){
+}
+ngOnInit(){
+}
+}
+
+
+
+--------> app.component.ts
+
+
+import {Component } from '@angular/core';
+//import {AppChildComponent} from './appchild.component';
+import { AppChildComponent } from './app-child/app-child.component';
+@Component({
+selector: 'my-app',
+template: `<h1>Hello {{message}}</h1> <br/>
+<appchild [greetMessage]="childmessage"></appchild>
+`,
+})
+export class AppComponent {
+message : string = "I am Parent";
+childmessage : string = "I am passed from Parent to child component"
+
+}
+
+
+
+------> Index.html
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Interect2</title>
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<my-app></my-app>
+</body>
+</html>
+
+
+
+2.Task CHILD TO PATRENT INTERACTION : @Output
+
+
+------>child.component.ts
+
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+@Component({
+selector: 'app-child',
+templateUrl: './child.component.html',
+styleUrls: ['./child.component.css']
+})
+export class ChildComponent implements OnInit {
+@Input() PData: number;
+@Output() childEvent = new EventEmitter();
+constructor() { }
+onChange(value) {
+this.childEvent.emit(value);
+}
+ngOnInit() {
+}
+}
+
+
+----->Parent.component.ts
+
+import { Component, OnInit } from '@angular/core';
+@Component({
+selector: 'app-parent',
+templateUrl: './parent.component.html',
+styleUrls: ['./parent.component.css']
+})
+export class ParentComponent implements OnInit {
+public CData: number;
+constructor() { }
+ngOnInit() {
+}
+}
+
+
+------> HTML for parent component.
+
+<h3>Parent Component</h3>
+
+<label>Parent Component</label>
+<input type="text" #pcomponent (keyup)="0"/>
+
+<p>Value of child component is: {{ CData }}</p>
+<app-child [PData]="pcomponent.value"
+(childEvent)="CData=$event"></app-child>
+
+
+
+------> HTML for Child component.
+
+<h3>Child Component</h3>
+
+<label>Child Component</label>
+<input type="text" #ccomponent (keyup) =
+"onChange(ccomponent.value)"/>
+
+<p>Value of parent component is: {{ PData }}</p>
+
+
+
+
