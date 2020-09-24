@@ -1,0 +1,45 @@
+//java script task
+
+var Name,Designation,Performancec;
+var Salary=0;
+var Bonus=0;
+
+console.log("Employee details");
+
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  readline.question('Please enter the Name : ', (name) => {
+    readline.question('Please enter the Designation : ', (design) => {
+        readline.question('Please enter the Salary : ', (sal) => {
+            readline.question('Please enter the Performance : ', (p) => {
+                Performancec=p;
+                Salary=sal;
+                switch (Performancec) {
+                    case 'A':
+                      console.log('Bonus 30% of sal.');
+                      Bonus=(+Salary)+(+(0.3*Salary));
+                      break;
+                    case 'B':
+                      console.log('Bonus 20% of sal.');
+                      Bonus=(+Salary)+(+(0.2*Salary));
+                      break;
+                    case 'C':
+                      console.log('No Bonus.');
+                      Bonus=0;
+                      break;
+                    default:
+                      console.log(`Invalid`);
+                  }
+                
+                console.log("Bonus "+ Bonus);
+                var Total_salary=(+Salary)+(+Bonus);
+                console.log("Total Salary "+ Total_salary);
+                readline.close();
+            });
+        });
+        
+    });
+});
