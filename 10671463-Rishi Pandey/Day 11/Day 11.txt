@@ -1,0 +1,209 @@
+#################  Demo Task #######################
+
+
+TASK 1 Create Server with specified port
+
+--------> app.js file
+
+
+
+var http = require('http');
+http.createServer(function (req,res) {
+    res.writeHead(200);
+    res.write(`<h1>hello rishi</h1>`);
+    res.end();
+
+}).listen(4444);
+
+
+
+TASK 2 Create server and open index.html with specified o/p
+
+----> index.html
+
+<div>
+    <h1>
+        connected with http://localhost:5000/
+    </h1>
+</div>
+
+
+------->app.js
+
+
+var http = require('http');
+var fs= require('fs');
+fs.readFile('./index.html', function (err, html) {
+    if (err) {
+        throw err; 
+    }     
+
+
+http.createServer(function (req,res) {
+    res.writeHead(200,{'Content-Type':"text\html"});
+    res.write(html);
+    res.end();
+
+}).listen(5000);
+
+});
+
+
+
+TASK 3 Perform Module Export
+
+
+----->file.txt
+
+
+hello text file 
+
+
+------>app.js
+
+
+var fs=require('fs');
+
+path='./file.txt';
+console.log('before');
+fs.readFile(path,function(error,file)
+{
+    console.log('during');
+    console.log(''+file);
+});
+
+console.log('after');
+
+
+
+Task 4 Perform Write File
+
+
+var fs=require('fs');
+
+fs.writeFile('test.txt','hello world',function(error)
+{
+    if(error)
+    {
+        console.log(error);
+    }
+    else
+    {
+        console.log('we have done it');
+    }
+})
+
+
+Task 5 Perform File Deletion
+
+
+var fs = require('fs')
+
+fs.unlink('test.txt',function()
+{
+    console.log('delete successfully')
+})
+
+
+Task 6 Perform Routing by changing url Project UI discussions
+
+
+---->contact.html
+
+<div>
+    <h1>
+        Welcome to contact
+    </h1>
+</div>
+
+----->service.html
+
+
+<div style="color:brown">
+    <h1>
+        Welcome to service
+    </h1>
+</div>
+
+
+-----> registration.html
+
+
+<div style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+    <h1>
+        Welcome to registration
+    </h1>
+</div>
+
+
+------>home.html
+
+
+<div>
+    <h1>
+        Welcome home
+    </h1>
+</div>
+
+
+
+-------->rish.js
+
+
+var url = require('url');
+var fs = require('fs');
+var http=require('http');
+
+http.createServer(function (req, res) {
+  var q = url.parse(req.url, true).pathname;
+  if (q=='/home')
+  {
+  fs.readFile('home.html', function(err, data) {
+    if (err) {
+      res.writeHead(404, {'Content-Type': 'text/html'});
+      return res.end("404 Not Found");
+    } 
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(data);
+    return res.end();
+  });
+}
+else if (q=='/contact')
+{
+    fs.readFile('contact.html', function(err, data) {
+        if (err) {
+          res.writeHead(404, {'Content-Type': 'text/html'});
+          return res.end("404 Not Found");
+        } 
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+        return res.end();
+      });
+}
+else if (q=='/registration')
+{
+    fs.readFile('registration.html', function(err, data) {
+        if (err) {
+          res.writeHead(404, {'Content-Type': 'text/html'});
+          return res.end("404 Not Found");
+        } 
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+        return res.end();
+      });
+}
+else if (q=='/service')
+{
+    fs.readFile('service.html', function(err, data) {
+        if (err) {
+          res.writeHead(404, {'Content-Type': 'text/html'});
+          return res.end("404 Not Found");
+        } 
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+        return res.end();
+      });
+}
+}).listen(5000);
+
+
