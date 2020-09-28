@@ -1,0 +1,311 @@
+----------------------------------------------------------------------------------------------------------------------------
+createdb.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/mydb";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log("Database created!");
+  db.close();
+});
+
+
+----------------------------------------------------------------------------------------------------------------------------
+createdbc.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.createCollection("customers", function(err, res) {
+    if (err) throw err;
+    console.log("Collection created!");
+    db.close();
+  });
+});
+
+
+----------------------------------------------------------------------------------------------------------------------------
+insermany.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var myobj = [
+    { name: 'John', address: 'Highway 71'},
+    { name: 'Peter', address: 'Lowstreet 4'},
+    { name: 'Amy', address: 'Apple st 652'},
+    { name: 'Hannah', address: 'Mountain 21'},
+    { name: 'Michael', address: 'Valley 345'},
+    { name: 'Sandy', address: 'Ocean blvd 2'},
+    { name: 'Betty', address: 'Green Grass 1'},
+    { name: 'Richard', address: 'Sky st 331'},
+    { name: 'Susan', address: 'One way 98'},
+    { name: 'Vicky', address: 'Yellow Garden 2'},
+    { name: 'Ben', address: 'Park Lane 38'},
+    { name: 'William', address: 'Central st 954'},
+    { name: 'Chuck', address: 'Main Road 989'},
+    { name: 'Viola', address: 'Sideway 1633'}
+  ];
+  dbo.collection("customers").insertMany(myobj, function(err, res) {
+    if (err) throw err;
+    console.log("Number of documents inserted: " + res.insertedCount);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+findall.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.collection("customers").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+John.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var query = { name: "John" };
+  dbo.collection("customers").find(query).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+nameS.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var query = { name: /^S/ };
+  dbo.collection("customers").find(query, { projection: { _id: 0, name: 1, address: 1 } }).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+updateall.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://127.0.0.1:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var myquery = { address: /^S/ };
+  var newvalues = 
+  [{
+    "$set": {
+      "name" : { $concat : ["Dr","$name"]}
+            }
+    }
+  ]
+  dbo.collection("customers").updateMany(myquery, newvalues, function(err, res) {
+    if (err) throw err;
+    console.log(res.result.nModified + " document(s) updated");
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+alldatabase.js
+----------------------------------------------------------------------------------------------------------------------------
+var mongoClient = require('mongodb').MongoClient;
+var dbName = 'test';
+mongoClient.connect("mongodb://localhost/",{
+useUnifiedTopology: true,useNewUrlParser:true, poolSize: 5, reconnectInterval: 500 },
+function(err,client){
+    if(err) throw err
+    var dbAdmin=client.db(dbName).admin();
+    dbAdmin.listDatabases(function (err,databases) {
+        if (err) throw err
+        console.log("before adding databases");
+        console.log(databases);
+        client.close();
+    })
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+allcollection.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.listCollections().toArray(function(err,res){
+      if(err) throw err
+      console.log(res)
+      db.close()
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+collection_number.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.collection("customers").find().count(function(err,res){
+      if(err) throw err
+      console.log(res)
+      db.close()
+  })
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+name_sort.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.collection("customers").find().sort({name:1}).toArray(function(err,res){
+      if(err) throw err
+      console.log(res)
+      db.close()
+  })
+});
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+5_document.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.collection("customers").find().limit(5).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+delete_name_A.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var q = {name: /^A/}
+  dbo.collection("customers").deleteMany(q,function(err,res){
+      if (err) throw err
+      console.log(res)
+      db.close()
+  })
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+insert_sal.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var sq = [{ $set : { salary:3000 }}]
+  dbo.collection("customers").updateMany({},sq,function(err, res) {
+      if (err) throw err;
+      console.log("updated!!");
+      console.log(res)
+      db.close();
+    }
+  );
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+sal_between.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var q = {$and:[{salary:{$gte:20000}},{salary:{$lte:40000}}]}
+  dbo.collection("customers").find(q).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+create_drop_collection.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+// MongoClient.connect(url, function(err, db) {
+//   if (err) throw err;
+//   var dbo = db.db("mydb2");
+//   dbo.createCollection("tempcollection", function(err, res) {
+//     if (err) throw err;
+//     console.log("Collection created!");
+//     db.close();
+//   });
+// });
+
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb2");
+    dbo.dropCollection("tempcollection", function(err, res) {
+      if (err) throw err;
+      console.log("Collection deleted");
+      db.close();
+    });
+  });
+
+
+
+
+
+
+
+
