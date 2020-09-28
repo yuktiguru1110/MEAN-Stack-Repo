@@ -1,0 +1,195 @@
+
+
+-----------------------------------------------------------------------------------------------------------
+app.module.ts
+-----------------------------------------------------------------------------------------------------------
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { CryptoService } from './crypto.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule
+  ],
+  providers: [CryptoService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+app.component.html
+------------------------------------------------------------------------------------------------------------
+
+<div class="d-flex justify-content-center" >
+  <h1>Objects coming from get service</h1>
+</div>
+<div class="d-flex justify-content-center" style="margin-top: 20px">
+  <table class="table table-hover table-stripped text-center center" style="width: 30%;">
+    <thead class="thead-dark align-middle">
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of coins">
+        <td class="align-middle">{{i.id}}</td>
+        <td class="align-middle">{{i.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<hr><hr>
+<div class="d-flex justify-content-center" >
+  <h1>Users coming from json db server</h1>
+</div>
+<div class="d-flex justify-content-center" >
+  <table class="table table-hover text-center center table-reponsive" style="width: 30%;">
+    <thead class="thead-dark align-middle">
+      <th scope="col">ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users">
+        <td>{{u.id}}</td>
+        <td>{{u.firstName}}</td>
+        <td>{{u.lastName}}</td>
+        <td>{{u.email}}</td>
+      </tr>
+      <tr *ngIf="!users || users.length==0">
+        <th colspan="4">
+          <p class="text-center text-danger">No users to show...</p>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<router-outlet></router-outlet>
+
+
+--------------------------------------------------------------------------------------------------------------
+app.component.ts
+--------------------------------------------------------------------------------------------------------------
+
+import { Component, OnInit } from '@angular/core';
+import { CryptoService } from './crypto.service';
+import { User } from './user'
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+
+  coins = [];
+
+  users:User[];
+
+  title = 'demoproject';
+  constructor(private cryptoservice:CryptoService){
+    this.coins = cryptoservice.getItems();
+  }
+
+  ngOnInit(){
+    this.cryptoservice.getAllUsers().subscribe( data => { this.users = data; } )
+  }
+}
+
+
+
+--------------------------------------------------------------------------------------------------------------
+db.json
+--------------------------------------------------------------------------------------------------------------
+{
+    "users": [
+      {
+        "id": 1,
+        "firstName": "A",
+        "lastName": "R",
+        "email": "ar@gmail.com"
+      },
+      {
+        "id": 2,
+        "firstName": "T",
+        "lastName": "N",
+        "email": "tn@gmail.com"
+      },
+      {
+        "id": 3,
+        "firstName": "Y",
+        "lastName": "G",
+        "email": "yg@gmail.com"
+      },
+      {
+        "id": 4,
+        "firstName": "M",
+        "lastName": "T",
+        "email": "mt@gmail.com"
+      },
+      {
+        "id": 5,
+        "firstName": "H",
+        "lastName": "E",
+        "email": "he@gmail.com"
+      }
+    ]
+  }
+
+
+--------------------------------------------------------------------------------------------------------
+user.ts
+--------------------------------------------------------------------------------------------------------
+export class User {
+    id:number;
+    firstName:string;
+    lastName:string;
+    email:string;
+}
+
+
+-------------------------------------------------------------------------------------------------------------
+crypto.service.ts
+--------------------------------------------------------------------------------------------------------------
+import { Injectable } from '@angular/core';
+import { HttpClient,HttpHeaders } from '@angular/common/http'
+import { User } from './user'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CryptoService {
+
+  coins=[
+    {id:1,name:"BTC"},
+    {id:2,name:"XRP"}
+  ];
+
+  httpOptions = {
+    headers: new HttpHeaders({'Content-Type':'application/json'})
+  }
+
+  baseURL: string = "http://localhost:3000/users";
+  constructor(private _http:HttpClient) { }
+
+  getAllUsers(){
+    return this._http.get<User[]>(this.baseURL);
+  }
+  getItems(){
+    return this.coins;
+  } 
+}
+
