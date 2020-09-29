@@ -1,0 +1,248 @@
+
+
+####################################### Demo Task ######################################
+
+
+
+Task 1 : Using NodeJs Insert 5 records inside the collection use insert many
+
+var MongoClient = require('mongodb').MongoClient;var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+      if (err) throw err; 
+       var dbo = db.db("mydb");
+       var obj =[ { name: "sriya", address: "hydrabad",salary:"45000" },{ name: "anurag", address: "jabalpur",salary:"25000" },{ name: "tarak", address: "chennai",salary:"35000" }]; 
+        
+          dbo.collection("customers").insertMany(obj, function(err, res) { 
+                 if (err) throw err;   
+                  console.log("many document inserted"); 
+                     db.close(); 
+                     });
+                    });
+
+
+Task 2 : Using NodeJs Show All data from Customers
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+      if (err) throw err; 
+       var dbo = db.db("mydb");
+         
+          dbo.collection("customers").find({}).toArray(function(err, res) { 
+                 if (err) throw err;   
+                  console.log(res); 
+                     db.close(); 
+                     });
+                    });
+
+
+
+Task 3 : Using NodeJS show All records where name="John"
+
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+      if (err) throw err; 
+       var dbo = db.db("mydb");
+         
+          dbo.collection("customers").find({name:"john"}).toArray(function(err, res) { 
+                 if (err) throw err;   
+                  console.log(res); 
+                     db.close(); 
+                     });
+                    });
+
+
+
+Task 4 : Using NodeJS show Name & Address where Name starts with "S"
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+      if (err) throw err; 
+       var dbo = db.db("mydb");
+         
+          dbo.collection("customers").find({name:/^s/}).toArray(function(err, res) { 
+                 if (err) throw err;   
+                  console.log(res); 
+                     db.close(); 
+                     });
+                    });
+
+
+Task 5 : Using NodeJS Update All Documents/Records and Put the word "Dr." with every name as prefix where address starts with "S"
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+ var query={name : /^s/};
+ var proj= [ { $set: { name: { $concat: [ "Dr.", "$name" ] } } }];
+
+  dbo.collection("customers").updateMany(query,proj,function(err, res) {
+    if (err) throw err;
+    console.log(res.result.nModified + " document(s) updated");
+    db.close();
+  });
+});
+
+
+Task 6 : a) Using NodeJs Show All Database existing inside the MongoDB b) Show All Collection existing inside the mydb database c) Show Number Of Documents existing inside the Customers collections d) Show All records of Customers & Sort the result alphabetically by name.
+
+6.a   const MongoClient = require("mongodb").MongoClient;
+
+const url = "mongodb://localhost:27017/";
+const client = new MongoClient(url, { useUnifiedTopology: true }); // useUnifiedTopology removes a warning
+
+// Connect
+client
+  .connect()
+  .then(client =>
+    client
+      .db()
+      .admin()
+      .listDatabases() // Returns a promise that will resolve to the list of databases
+  )
+  .then(dbs => {
+    console.log("Mongo databases", dbs);
+  })
+  .finally(() => client.close());
+
+
+6.b    
+
+
+const MongoClient = require("mongodb").MongoClient;
+
+// Connection url
+var url = 'mongodb://localhost:27017/mydb';
+const client = new MongoClient(url, { useUnifiedTopology: true }); // { useUnifiedTopology: true } removes connection warnings;
+
+const dbName = "mydb";
+
+client
+      .connect()
+      .then(
+        client =>
+          client
+            .db(dbName)
+            .listCollections()
+            .toArray() // Returns a promise that will resolve to the list of the collections
+      )
+      .then(cols => console.log("Collections", cols))
+      .finally(() => client.close());
+
+6.c   var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+      if (err) throw err; 
+       var dbo = db.db("mydb");
+         
+          dbo.collection("customers").countDocuments(function(err, res) { 
+                 if (err) throw err;   
+                  console.log(res); 
+                     db.close(); 
+                     });
+                    });
+
+6.d     var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var mysort = { name: 1 };
+  dbo.collection("customers").find().sort(mysort).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+Task 7 : Limit the result to show only 5 documents
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.collection("customers").find().limit(5).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+Task 8 : Using NodeJS delete the record where name starts with "R"
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var myquery = { name:/^R/ };
+  dbo.collection("customers").deleteMany(myquery, function(err, obj) {
+    if (err) throw err;
+    console.log("Many document deleted");
+    db.close();
+  });
+});
+
+
+Task 9 : Using Node js add one new field as "Salary"  & Insert the Salary for all customers
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://127.0.0.1:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var myquery = { name: /^D/};
+  var newvalues = { $set: {salary:"15000" } };
+  dbo.collection("customers").updateMany(myquery, newvalues, function(err, res) {
+    if (err) throw err;
+    console.log("Many document updated");
+    db.close();
+  });
+});
+
+
+Task 10 : Using Nodejs Show all customers getting the Salary between 20000 and 40000
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+      if (err) throw err; 
+       var dbo = db.db("mydb");
+         
+          dbo.collection("customers").find({salary:{$gt:"20000",$lt:"40000"}}).toArray(function(err, res) { 
+                 if (err) throw err;   
+                  console.log(res); 
+                     db.close(); 
+                     });
+                    });
+
+
+Task 11 : Using NodeJS create a new collection tempcollection &  drop the Collection tempcollection
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.collection("tempcolection").drop(function(err, delOK) {
+    if (err) throw err;
+    if (delOK) console.log("Collection deleted");
+    db.close();
+  });
+});
+
+
