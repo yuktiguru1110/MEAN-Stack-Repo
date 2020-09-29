@@ -1,0 +1,312 @@
+----------------------------------------------------------------------------------------------------------------------------
+1. Creating db uding node js  :   createdb.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/mydb";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log("Database created!");
+  db.close();
+});
+
+
+----------------------------------------------------------------------------------------------------------------------------
+ 2. Creating collection using node js  :  createdbc.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.createCollection("customers", function(err, res) {
+    if (err) throw err;
+    console.log("Collection created!");
+    db.close();
+  });
+});
+
+
+----------------------------------------------------------------------------------------------------------------------------
+3. Inserting document in the collection using node js : insert.js
+----------------------------------------------------------------------------------------------------------------------------
+ var MongoClient = require('mongodb').MongoClient;
+ var url = "mongodb://localhost:27017/";
+ MongoClient.connect(url, function(err, db) 
+ {
+     if (err) throwerr;
+     var dbo = db.db("mydb2");
+     var myobj = { name:"Company Inc", address:"Highway 37" };
+     dbo.collection("customers").insertOne(myobj, function(err, res)
+      {
+          if (err) throwerr;
+          console.log("1 document inserted");
+          db.close(); 
+       });
+  });
+
+---------------------------------------------------------------------------------------------------------------------------
+4. Inserting multiple documents in the collection using node js : insert1.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+ var url = "mongodb://localhost:27017/";
+ MongoClient.connect(url, function(err, db) 
+ {
+     if (err) throwerr;
+     var dbo = db.db("mydb2");
+     var myobj =[{ name:"Company ABC", address:"Highway 38" },
+     { name:"John", address:"Highway 39" },
+     { name:"Harry", address:"Highway 40" },
+     { name:"Mark", address:"Highway 41" },
+     { name:"jonas", address:"Highway 42" }] ;
+     dbo.collection("customers").insertMany(myobj, function(err, res)
+      {
+          if (err) throwerr;
+          console.log("1 document inserted");
+          db.close(); 
+       });
+  });
+
+---------------------------------------------------------------------------------------------------------------------------
+5. Show all documents in the collection using node js : showdata.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) 
+{
+    if (err) throwerr;
+    var dbo = db.db("mydb2");
+    dbo.collection("customers").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        db.close();
+      });
+ });
+
+---------------------------------------------------------------------------------------------------------------------------
+6. Find document where name is John :   find.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var query = { name: "John" };
+  dbo.collection("customers").find(query).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+7.Using NodeJS show Name & Address where Name starts with "S" :  find1.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var query = { name: /^S/ };
+  dbo.collection("customers").find(query, { projection: { _id: 0, name: 1, address: 1 } }).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+8. Update All Documents/Records and Put the word "Dr." with every name as prefix  where address starts with "S" : update.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://127.0.0.1:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var myquery = { address: /^S/ };
+  var newvalues = 
+  [{
+    "$set": {
+      "name" : { $concat : ["Dr","$name"]}
+            }
+    }
+  ]
+  dbo.collection("customers").updateMany(myquery, newvalues, function(err, res) {
+    if (err) throw err;
+    console.log(res.result.nModified + " document(s) updated");
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+9. Using NodeJs Show All Database existing inside the MongoDB : showdb.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+
+// Connection url
+var url = 'mongodb://localhost:27017/';
+// Connect using MongoClient
+MongoClient.connect(url, function(err, db) {
+  // Use the admin database for the operation
+  var adminDb = db.db('test').admin();
+  // List all the available databases
+  adminDb.listDatabases(function(err, result) {
+    console.log(result.databases);
+    db.close();
+  });
+});
+
+---------------------------------------------------------------------------------------------------------------------------
+10.Show All Collection existing inside the mydb database : showc.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.listCollections().toArray(function(err,res){
+      if(err) throw err
+      console.log(res)
+      db.close()
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+11. Show Number Of Documents existing inside the Customers collections : count.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.collection("customers").find().count(function(err,res){
+      if(err) throw err
+      console.log(res)
+      db.close()
+  })
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+12.  Show All records of Customers & Sort the result alphabetically by name : sort.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.collection("customers").find().sort({name:1}).toArray(function(err,res){
+      if(err) throw err
+      console.log(res)
+      db.close()
+  })
+});
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+13. Limit the result to show only 5 documents : limit.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  dbo.collection("customers").find().limit(5).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+14. Using NodeJS delete the record where name starts with "A" : delete.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var q = {name: /^A/}
+  dbo.collection("customers").deleteMany(q,function(err,res){
+      if (err) throw err
+      console.log(res)
+      db.close()
+  })
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+15. Using Node js add one new field as "Salary"  & Insert the Salary for all customers : addfield.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var query={};
+ var proj= [{ $set: { salary: 20000  } }];
+
+  dbo.collection("customers").updateMany(query,proj,function(err, res) {
+    if (err) throw err;
+    console.log(res.result.nModified + " document(s) updated");
+    db.close();
+  });
+  
+});
+
+---------------------------------------------------------------------------------------------------------------------------
+16.  Using Nodejs Show all customers getting the Salary between 20000 and 40000 : range.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb2");
+  var q = {$and:[{salary:{$gte:20000}},{salary:{$lte:40000}}]}
+  dbo.collection("customers").find(q).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });
+});
+
+
+---------------------------------------------------------------------------------------------------------------------------
+17. Using NodeJS create a new collection tempcollection &  drop the Collection tempcollection : drop.js
+----------------------------------------------------------------------------------------------------------------------------
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
+ MongoClient.connect(url, function(err, db) {
+   if (err) throw err;
+   var dbo = db.db("mydb2");
+   dbo.createCollection("temp", function(err, res) {
+    if (err) throw err;
+     console.log("Collection created!");
+     db.close();
+   });
+ });
+
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb2");
+    dbo.dropCollection("temp", function(err, res) {
+      if (err) throw err;
+      console.log("Collection deleted");
+      db.close();
+    });
+  });
+
+
+
