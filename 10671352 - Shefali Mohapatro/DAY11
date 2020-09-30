@@ -1,1 +1,20 @@
 
+------------------------------------------------------------------------------------------------------
+server.js
+------------------------------------------------------------------------------------------------------
+var empobj = {
+    name:String="Shefali",
+    designation:String="GET",
+    salary:Number = 50000,
+    performance:String = "A",
+    bonus:Number,
+    totalsalary:Number
+}
+
+if(empobj.performance=="A") empobj.bonus =  0.3 * empobj.salary
+else if (empobj.performance=="B") empobj.bonus = 0.2 * empobj.salary
+else empobj.bonus = 0
+
+empobj.totalsalary = empobj.bonus + empobj.salary
+
+console.log(empobj)
