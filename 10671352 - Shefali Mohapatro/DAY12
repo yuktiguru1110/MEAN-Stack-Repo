@@ -1,1 +1,166 @@
+----------------------------------------------------------------------------------------------------
+server1.js
+-----------------------------------------------------------------------------------------------------
+var http = require('http')
+http.createServer(function(request,response){
+    response.writeHead(200)
+    response.write(`<h1>Hello World!!!</h1>`);
+    response.end()
+}).listen(5000);
+console.log('Server running at http://localhost:5000') 
+
+
+----------------------------------------------------------------------------------------------------
+server2.js
+-----------------------------------------------------------------------------------------------------
+const { fstat } = require('fs');
+var http = require('http')
+var fs = require('fs')
+http.createServer(function(request,response){
+    fs.readFile('index.html',function(err,data){
+        if(err){
+            response.writeHead(404)
+            response.write(err)
+            response.end()
+        }   
+        else{
+            response.writeHead(200)
+            response.write(data);
+            response.end();
+        } 
+    })
+}).listen(5000);
+console.log('Server running at http://localhost:5000') 
+---------------------------------------------------------------------------------------------------
+index.html
+---------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>My Server</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="p-3 mb-2 bg-dark text-white">
+            <div class="d-flex justify-content-center bg-white" style="padding-top: 10px">
+                <p class="text-success font-weight-bold">Connected with http://localhost:5000</p>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+---------------------------------------------------------------------------------------------------
+data.js
+---------------------------------------------------------------------------------------------------
+module.exports = {
+    fName:'James',
+    lName:'Bond'
+}
+---------------------------------------------------------------------------------------------------
+app.js
+---------------------------------------------------------------------------------------------------
+var person = require('./data.js')
+console.log(person.fName+' '+person.lName)
+
+
+
+---------------------------------------------------------------------------------------------------
+app.js
+---------------------------------------------------------------------------------------------------
+var fs = require('fs')
+fs.writeFile('test1.txt','Hello World!!!',function(err){
+    if(err) console.log(err)
+    else console.log('Write operation complete')
+})
+
+
+---------------------------------------------------------------------------------------------------
+app.js
+---------------------------------------------------------------------------------------------------
+var fs = require('fs')
+fs.unlink('f1.txt',function(){
+    console.log('Delete operation complete')
+})
+
+
+
+---------------------------------------------------------------------------------------------------
+app.js
+---------------------------------------------------------------------------------------------------
+var http = require('http')
+var url = require('url')
+var fs = require('fs')
+var server = http.createServer(function(request,response){
+    var path = url.parse(request.url).pathname
+    switch(path){
+        case '/':
+            fs.readFile('index.html',function(err,data){
+                if(err){
+                    response.writeHead(404)
+                    response.write(err)
+                }
+                else {
+                    response.writeHead(200)
+                    response.write(data)
+                }
+                response.end()
+            })
+            break
+            case '/services':
+            fs.readFile('services.html',function(err,data){
+                if(err){
+                    response.writeHead(404)
+                    response.write(err)
+                }
+                else {
+                    response.writeHead(200)
+                    response.write(data)
+                }
+                response.end()
+            })
+            break   
+        case '/registration':
+            fs.readFile('registration.html',function(err,data){
+                if(err){
+                    response.writeHead(404)
+                    response.write(err)
+                }
+                else {
+                    response.writeHead(200)
+                    response.write(data)
+                }
+                response.end()
+            })
+            break     
+        case '/contact':
+            fs.readFile('contact.html',function(err,data){
+                if(err){
+                    response.writeHead(404)
+                    response.write(err)
+                }
+                else {
+                    response.writeHead(200)
+                    response.write(data)
+                }
+                response.end()
+            })
+            break  
+        default:
+            response.writeHead(404);  
+            response.write("opps this doesn't exist - 404");  
+            response.end();  
+            break;        
+    }
+})
+server.listen(5000)
+
+
+
+
+
 
